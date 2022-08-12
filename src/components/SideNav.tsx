@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 
-const SideNav: React.FC = () => {
+type NavProps = {
+  toggleCommandPalette: any;
+};
+
+const SideNav: React.FC = ({ toggleCommandPalette }: NavProps) => {
   const navArr = () => {
     let arr = [];
     for (let i = 1; i < 51; i++) {
@@ -15,14 +19,15 @@ const SideNav: React.FC = () => {
   }, []);
 
   return (
-    <div className="hidden lg:block fixed z-20 inset-0 top-[5rem] left-[max(0px,calc(50%-42rem))] right-auto w-[19.5rem] pb-10 px-8 overflow-y-auto">
+    <div className="hidden lg:block fixed z-20 inset-0 top-[5rem] left-[max(0px,calc(50%-40rem))] right-auto w-[19.5rem] pb-10 px-8 overflow-y-auto">
       <nav id="nav" className="lg:text-sm lg:leading-6 relative">
         <div className="sticky top-0 -ml-0.5 pointer-events-none">
-          <div className="h-10 bg-white"></div>
+          <div className="h-8 bg-white"></div>
           <div className="bg-white relative pointer-events-auto">
             <button
               type="button"
               className="hidden w-full lg:flex items-center text-sm leading-6 text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300"
+              onClick={toggleCommandPalette}
             >
               <svg
                 width="24"
@@ -49,7 +54,7 @@ const SideNav: React.FC = () => {
                 ></circle>
               </svg>
               Quick search...
-              <span className="ml-auto pl-3 flex-none text-xs font-semibold">
+              <span className="ml-auto flex-none text-xs font-semibold kbd text-gray-500">
                 ⌘K
               </span>
             </button>
