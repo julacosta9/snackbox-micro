@@ -1,14 +1,6 @@
 import { useState, useEffect } from "react";
 
-type NavProps = {
-  showMobileSideNav: boolean;
-  setShowMobileSideNav: any;
-};
-
-const SideNavMobile: React.FC = ({
-  showMobileSideNav,
-  setShowMobileSideNav,
-}: NavProps) => {
+const SideNavMobile: React.FC = () => {
   const navArr = () => {
     let arr = [];
     for (let i = 1; i < 51; i++) {

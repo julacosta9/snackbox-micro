@@ -37,7 +37,7 @@ const people = [
 
 type Props = {
   isOpen: boolean;
-  setIsOpen: any;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
@@ -61,7 +61,7 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
 
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, []);
+  }, [setIsOpen]);
 
   return (
     <Dialog
@@ -92,7 +92,11 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
         </div>
         <Combobox.Options className="py-4 text-sm max-h-96 overflow-y-auto">
           {filteredPeople.map((person) => (
-            <Combobox.Option key={person.id} className="px-2 md:px-8 py-1">
+            <Combobox.Option
+              value={person}
+              key={person.id}
+              className="px-2 md:px-8 py-1"
+            >
               {({ active }) => (
                 <div
                   className={`flex items-center px-4 py-3 gap-y-1 rounded-xl ${

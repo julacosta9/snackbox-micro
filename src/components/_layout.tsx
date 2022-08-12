@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Nav from "../components/Nav";
 import SideNav from "../components/SideNav";
 import SideNavMobile from "./SideNavMobile";
@@ -10,12 +10,7 @@ type Props = {
 };
 
 const Layout = ({ children }: Props) => {
-  const [showMobileSideNav, setShowMobileSideNav] = useState(false);
-  const [showCommandPalette, setShowCommandPalette] = useState(false);
-
-  const toggleCommandPalette = () => {
-    setShowCommandPalette((showCommandPalette) => !showCommandPalette);
-  };
+  const [showCommandPalette, setShowCommandPalette] = useState<boolean>(false);
 
   return (
     <div className="drawer">
@@ -23,21 +18,24 @@ const Layout = ({ children }: Props) => {
       <div className="drawer-content">
         <CommandPalette
           isOpen={showCommandPalette}
-          setIsOpen={toggleCommandPalette}
+          setIsOpen={setShowCommandPalette}
         />
-        <Nav toggleCommandPalette={toggleCommandPalette} />
+        <Nav
+          isCommandPaletteOpen={showCommandPalette}
+          setShowCommandPalette={setShowCommandPalette}
+        />
         <div className="flex max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <SideNav toggleCommandPalette={toggleCommandPalette} />
+          <SideNav
+            isCommandPaletteOpen={showCommandPalette}
+            setShowCommandPalette={setShowCommandPalette}
+          />
           <Content>
             {children}
             <Footer />
           </Content>
         </div>
       </div>
-      <SideNavMobile
-        showMobileSideNav={showMobileSideNav}
-        setShowMobileSideNav={setShowMobileSideNav}
-      />
+      <SideNavMobile />
     </div>
   );
 };

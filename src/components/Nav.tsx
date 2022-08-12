@@ -10,10 +10,14 @@ import {
 } from "@heroicons/react/outline";
 
 type NavProps = {
-  toggleCommandPalette: any;
+  isCommandPaletteOpen: boolean;
+  setShowCommandPalette: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Nav: React.FC = ({ toggleCommandPalette }: NavProps) => {
+const Nav: React.FC<NavProps> = ({
+  isCommandPaletteOpen,
+  setShowCommandPalette,
+}: NavProps) => {
   const [isDarkMode, setDarkMode] = useState(false);
 
   return (
@@ -22,12 +26,12 @@ const Nav: React.FC = ({ toggleCommandPalette }: NavProps) => {
         <div className="max-w-7xl mx-auto justify-between flex items-center py-1 lg:py-2 px-1 sm:px-3 md:px-4 lg:px-8">
           <label
             htmlFor="my-drawer"
-            tabIndex="0"
+            tabIndex={0}
             className="lg:hidden btn btn-ghost btn-sm rounded-btn drawer-button"
           >
             <MenuIcon className="h-6 w-6" />
           </label>
-          <Link href="/" aria-current="page" aria-label="Homepage" tabIndex="1">
+          <Link href="/" aria-current="page" aria-label="Homepage" tabIndex={1}>
             <div className="flex-0 pr-2 inline-flex text-lg transition-all duration-200 lg:text-3xl leading-normal font-extrabold text-gray-700 cursor-pointer">
               <span className="lowercase text-secondary transition">
                 sbmicro
@@ -40,7 +44,7 @@ const Nav: React.FC = ({ toggleCommandPalette }: NavProps) => {
             <a className="btn btn-ghost btn-sm normal-case">About</a>
             <div className="divider divider-horizontal mx-0 bg-"></div>
             <label
-              tabIndex="2"
+              tabIndex={2}
               className="btn btn-ghost btn-sm rounded-btn"
               onClick={() => setDarkMode(!isDarkMode)}
             >
@@ -53,18 +57,18 @@ const Nav: React.FC = ({ toggleCommandPalette }: NavProps) => {
           </div>
           <div className="flex items-center lg:hidden gap-x-1">
             <label
-              tabIndex="2"
+              tabIndex={2}
               className="btn btn-ghost btn-sm rounded-btn"
-              onClick={toggleCommandPalette}
+              onClick={(e) => setShowCommandPalette(!isCommandPaletteOpen)}
             >
               <SearchIcon className="lg:hidden h-5 w-5" />
             </label>
             <div className="lg:hidden dropdown dropdown-end">
-              <label tabIndex="3" className="btn btn-ghost btn-sm rounded-btn">
+              <label tabIndex={3} className="btn btn-ghost btn-sm rounded-btn">
                 <DotsVerticalIcon className="h-5 w-5" />
               </label>
               <ul
-                tabIndex="0"
+                tabIndex={0}
                 className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4"
               >
                 <li>

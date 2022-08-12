@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 
 type NavProps = {
-  toggleCommandPalette: any;
+  isCommandPaletteOpen: boolean;
+  setShowCommandPalette: (value: boolean) => void;
 };
 
-const SideNav: React.FC = ({ toggleCommandPalette }: NavProps) => {
+const SideNav: React.FC<NavProps> = ({
+  isCommandPaletteOpen,
+  setShowCommandPalette,
+}: NavProps) => {
   const navArr = () => {
     let arr = [];
     for (let i = 1; i < 51; i++) {
@@ -27,7 +31,7 @@ const SideNav: React.FC = ({ toggleCommandPalette }: NavProps) => {
             <button
               type="button"
               className="hidden w-full lg:flex items-center text-sm leading-6 text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300"
-              onClick={toggleCommandPalette}
+              onClick={(e) => setShowCommandPalette(!isCommandPaletteOpen)}
             >
               <svg
                 width="24"

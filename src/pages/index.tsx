@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { allArticles, Article } from "contentlayer/generated";
 import { compareDesc, format, parseISO } from "date-fns";
-import { Article } from "contentlayer.config";
 
 type TechnologyCardProps = {
   name: string;
@@ -91,7 +90,7 @@ function ArticleCard(article: Article) {
         {format(parseISO(article.date), "LLLL d, yyyy")}
       </time>
 
-      {article.tags.map((tag, id) => (
+      {article.tags?.map((tag, id) => (
         <span className="mr-2" key={id}>
           {tag}
         </span>
