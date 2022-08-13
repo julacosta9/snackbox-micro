@@ -4,13 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { allArticles, Article } from "contentlayer/generated";
+import { useMDXComponent } from "next-contentlayer/hooks";
 import { compareDesc, format, parseISO } from "date-fns";
-
-type TechnologyCardProps = {
-  name: string;
-  description: string;
-  documentation: string;
-};
 
 export async function getStaticProps() {
   const articles: Article[] = allArticles.sort((a, b) => {
@@ -33,49 +28,12 @@ const Home = ({ articles }: { articles: Article[] }) => {
         ))}
       </section>
       <p className="text-2xl text-gray-700">This stack uses:</p>
-      <div className="grid gap-3 pt-3 mt-3 mb-8 text-center md:grid-cols-3 lg:w-100">
-        <TechnologyCard
-          name="NextJS"
-          description="The React framework for production"
-          documentation="https://nextjs.org/"
-        />
-        <TechnologyCard
-          name="TypeScript"
-          description="Strongly typed programming language that builds on JavaScript, giving you better tooling at any scale"
-          documentation="https://www.typescriptlang.org/"
-        />
-        <TechnologyCard
-          name="TailwindCSS"
-          description="Rapidly build modern websites without ever leaving your HTML"
-          documentation="https://tailwindcss.com/"
-        />
-      </div>
     </>
   );
 };
 
-const TechnologyCard = ({
-  name,
-  description,
-  documentation,
-}: TechnologyCardProps) => {
-  return (
-    <section className="flex flex-col justify-center p-6 duration-500 border-2 border-gray-500 rounded shadow-xl motion-safe:hover:scale-105">
-      <h2 className="text-lg text-gray-700">{name}</h2>
-      <p className="text-sm text-gray-600">{description}</p>
-      <a
-        className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
-        href={documentation}
-        target="_blank"
-        rel="noreferrer"
-      >
-        Documentation
-      </a>
-    </section>
-  );
-};
-
 function ArticleCard(article: Article) {
+  const MDXContent = useMDXComponent(article.body.code);
   return (
     <div className="mb-8">
       <h2 className="text-xl">
@@ -96,10 +54,9 @@ function ArticleCard(article: Article) {
         </span>
       ))}
 
-      <div
-        className="text-sm"
-        dangerouslySetInnerHTML={{ __html: article.body.html }}
-      />
+      <div className="text-sm">
+        <MDXContent />
+      </div>
     </div>
   );
 }

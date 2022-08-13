@@ -40,12 +40,12 @@ const Nav: React.FC<NavProps> = ({
             </div>
           </Link>
           <div className="hidden lg:flex gap-x-1">
-            <a className="btn btn-ghost btn-sm normal-case">Gallery</a>
-            <a className="btn btn-ghost btn-sm normal-case">About</a>
+            <a className="btn btn-ghost btn-sm bg-white normal-case">Gallery</a>
+            <a className="btn btn-ghost btn-sm bg-white normal-case">About</a>
             <div className="divider divider-horizontal mx-0 bg-"></div>
             <label
               tabIndex={2}
-              className="btn btn-ghost btn-sm rounded-btn"
+              className="btn btn-ghost btn-sm bg-white rounded-btn"
               onClick={() => setDarkMode(!isDarkMode)}
             >
               {isDarkMode ? (
