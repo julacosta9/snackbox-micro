@@ -7,7 +7,7 @@ module.exports = {
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
     styled: true,
-    themes: ["cmyk", "night", "dracula", "emerald", "corporate", "business"],
-    darkTheme: "business",
+    themes: ["light", "dark", "cmyk", "dracula"],
+    darkTheme: "dark",
   },
 };
