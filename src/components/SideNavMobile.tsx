@@ -53,21 +53,21 @@ const SideNavMobile: React.FC = () => {
     <div className="overflow-y-auto drawer-side">
       <label
         htmlFor="my-drawer"
-        className="drawer-overlay backdrop-filter"
+        className="drawer-overlay backdrop-blur-sm"
       ></label>
       <nav
         id="nav"
-        className="bg-base-100 lg:text-sm lg:leading-6 relative w-1/2 min-w-[250px]"
+        className="bg-base-100 lg:text-sm lg:leading-6 relative w-1/2 min-w-[250px] shadow-lg border-r border-base-200"
       >
         <div className="flex flex-col gap-y-1 pt-2 pl-6 pr-2">
           {toc.map((section: toc, i: number) => (
             <div key={i} className="mb-2">
-              <div className="font-bold py-3 transition rounded text-base-content/80 mb-2">
+              <div className="font-bold text-xs py-3 transition rounded text-base-content/80 mb-2">
                 {section.sectionTitle}
               </div>
               {section.articles.map((article: Article | null, j) => (
                 <div
-                  className="py-2 text-lg hover:text-primary-content text-base-content transition border-l border-base-content/20 hover:border-primary hover:bg-primary/80 rounded-tr-sm rounded-br-sm"
+                  className="py-2 hover:text-primary-content text-base-content transition border-l border-base-content/20 hover:border-primary hover:bg-primary/80 rounded-tr rounded-br"
                   key={j}
                 >
                   <span className="ml-6">{article?.title}</span>
