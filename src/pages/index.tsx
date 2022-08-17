@@ -9,7 +9,7 @@ import { compareDesc, format, parseISO } from "date-fns";
 
 export async function getStaticProps() {
   const articles: Article[] = allArticles.sort((a, b) => {
-    return compareDesc(new Date(a.date), new Date(b.date));
+    return compareDesc(new Date(a.last_edited), new Date(b.last_edited));
   });
   return { props: { articles } };
 }
@@ -27,7 +27,6 @@ const Home = ({ articles }: { articles: Article[] }) => {
           <ArticleCard key={idx} {...article} />
         ))}
       </section>
-      <p className="text-2xl text-gray-700">This stack uses:</p>
     </>
   );
 };
@@ -42,10 +41,10 @@ function ArticleCard(article: Article) {
         </Link>
       </h2>
       <time
-        dateTime={article.date}
+        dateTime={article.last_edited}
         className="block text-xs text-gray-600 mb-2"
       >
-        {format(parseISO(article.date), "LLLL d, yyyy")}
+        {format(parseISO(article.last_edited), "LLLL d, yyyy")}
       </time>
 
       {article.tags?.map((tag, id) => (

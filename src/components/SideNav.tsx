@@ -1,25 +1,65 @@
 import { useState, useEffect } from "react";
+import { allArticles, Article } from "contentlayer/generated";
+
+type toc = {
+  sectionTitle: string;
+  articles: Array<Article | null>;
+};
 
 type NavProps = {
   isCommandPaletteOpen: boolean;
   setShowCommandPalette: (value: boolean) => void;
+  tocTree: toc[];
 };
+
+//   const sortedArticles: Article[] = allArticles.sort((a, b) => {
+//     return parseInt(a.pathSegments.order) - parseInt(b.pathSegments.order);
+//   });
 
 const SideNav: React.FC<NavProps> = ({
   isCommandPaletteOpen,
   setShowCommandPalette,
 }: NavProps) => {
-  const navArr = () => {
-    let arr = [];
-    for (let i = 1; i < 51; i++) {
-      arr.push(i);
-    }
-    return arr;
-  };
-  const [toc, setToc] = useState(navArr());
+  const [toc, setToc] = useState<any>([]);
 
   useEffect(() => {
-    setToc(navArr());
+    const tocTree: toc[] = [
+      {
+        sectionTitle: "Section A",
+        articles: [],
+      },
+      {
+        sectionTitle: "Section B",
+        articles: [],
+      },
+      {
+        sectionTitle: "Section C",
+        articles: [],
+      },
+      {
+        sectionTitle: "Section D",
+        articles: [],
+      },
+      {
+        sectionTitle: "Section E",
+        articles: [],
+      },
+    ];
+
+    allArticles.forEach((article) => {
+      if (article.pathSegments.sectionPathName === "section-a")
+        tocTree[0]?.articles.push(article);
+      if (article.pathSegments.sectionPathName === "section-b")
+        tocTree[1]?.articles.push(article);
+      if (article.pathSegments.sectionPathName === "section-c")
+        tocTree[2]?.articles.push(article);
+      if (article.pathSegments.sectionPathName === "section-d")
+        tocTree[3]?.articles.push(article);
+      if (article.pathSegments.sectionPathName === "section-e")
+        tocTree[4]?.articles.push(article);
+    });
+
+    setToc(tocTree);
   }, []);
 
   return (
@@ -66,12 +106,19 @@ const SideNav: React.FC<NavProps> = ({
           <div className="h-8 bg-gradient-to-b from-white"></div>
         </div>
         <div className="flex flex-col gap-y-1">
-          {toc.map((i) => (
-            <div
-              className="px-4 py-3 bg-slate-200 hover:bg-slate-300 transition rounded"
-              key={i}
-            >
-              {i}
+          {toc.map((section, i) => (
+            <div key={i} className="mb-2">
+              <div className="font-bold py-3 transition rounded text-base-content">
+                {section.sectionTitle}
+              </div>
+              {section.articles.map((article, j) => (
+                <div
+                  className="py-1 hover:text-base-content text-base-content/60 transition border-l hover:border-primary rounded-tr rounded-br"
+                  key={j}
+                >
+                  <span className="ml-6">{article.title}</span>
+                </div>
+              ))}
             </div>
           ))}
         </div>

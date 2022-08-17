@@ -1,17 +1,52 @@
 import { useState, useEffect } from "react";
+import { allArticles, Article } from "contentlayer/generated";
+
+type toc = {
+  sectionTitle: string;
+  articles: Array<Article | null>;
+};
 
 const SideNavMobile: React.FC = () => {
-  const navArr = () => {
-    let arr = [];
-    for (let i = 1; i < 51; i++) {
-      arr.push(i);
-    }
-    return arr;
-  };
-  const [toc, setToc] = useState(navArr());
+  const [toc, setToc] = useState<any>([]);
 
   useEffect(() => {
-    setToc(navArr());
+    const tocTree: toc[] = [
+      {
+        sectionTitle: "Section A",
+        articles: [],
+      },
+      {
+        sectionTitle: "Section B",
+        articles: [],
+      },
+      {
+        sectionTitle: "Section C",
+        articles: [],
+      },
+      {
+        sectionTitle: "Section D",
+        articles: [],
+      },
+      {
+        sectionTitle: "Section E",
+        articles: [],
+      },
+    ];
+
+    allArticles.forEach((article) => {
+      if (article.pathSegments.sectionPathName === "section-a")
+        tocTree[0]?.articles.push(article);
+      if (article.pathSegments.sectionPathName === "section-b")
+        tocTree[1]?.articles.push(article);
+      if (article.pathSegments.sectionPathName === "section-c")
+        tocTree[2]?.articles.push(article);
+      if (article.pathSegments.sectionPathName === "section-d")
+        tocTree[3]?.articles.push(article);
+      if (article.pathSegments.sectionPathName === "section-e")
+        tocTree[4]?.articles.push(article);
+    });
+
+    setToc(tocTree);
   }, []);
 
   return (
@@ -22,15 +57,22 @@ const SideNavMobile: React.FC = () => {
       ></label>
       <nav
         id="nav"
-        className="bg-white lg:text-sm lg:leading-6 relative w-1/2 min-w-[300px]"
+        className="bg-white lg:text-sm lg:leading-6 relative w-1/2 min-w-[250px]"
       >
-        <div className="flex flex-col gap-y-1 pt-8 px-2">
-          {toc.map((i) => (
-            <div
-              className="px-4 py-2 bg-slate-200 hover:bg-slate-300 transition rounded"
-              key={i}
-            >
-              {i}
+        <div className="flex flex-col gap-y-1 pt-2 pl-6 pr-2">
+          {toc.map((section, i) => (
+            <div key={i} className="mb-2">
+              <div className="font-bold py-3 transition rounded text-base-content mb-2">
+                {section.sectionTitle}
+              </div>
+              {section.articles.map((article, j) => (
+                <div
+                  className="py-2 text-lg hover:text-base-content text-base-content/60 transition border-l hover:border-primary rounded-tr rounded-br"
+                  key={j}
+                >
+                  <span className="ml-6">{article.title}</span>
+                </div>
+              ))}
             </div>
           ))}
         </div>

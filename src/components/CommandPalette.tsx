@@ -2,39 +2,8 @@ import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/router";
 import { Dialog, Combobox, Transition } from "@headlessui/react";
 import { SearchIcon, ChevronRightIcon } from "@heroicons/react/outline";
-
-const people = [
-  {
-    id: 0,
-    name: "Durward Reynolds",
-    category: "Edit Mode",
-    link: "google.com",
-  },
-  {
-    id: 1,
-    name: "Kenton Towne",
-    category: "Edit Mode",
-    link: "google.com",
-  },
-  {
-    id: 2,
-    name: "Therese Wunsch",
-    category: "Edit Mode",
-    link: "google.com",
-  },
-  {
-    id: 3,
-    name: "Benedict Kessler",
-    category: "Input Mode",
-    link: "google.com",
-  },
-  {
-    id: 4,
-    name: "Katelyn Rohan",
-    category: "Input Mode",
-    link: "google.com",
-  },
-];
+import { allArticles } from "contentlayer/generated";
+import Fuse from "fuse.js";
 
 type Props = {
   isOpen: boolean;
@@ -46,12 +15,12 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
   const [query, setQuery] = useState("");
   const router = useRouter();
 
-  const filteredPeople =
-    query === ""
-      ? []
-      : people.filter((person) => {
-          return person.name.toLowerCase().includes(query.toLowerCase());
-        });
+  const fuse = new Fuse(allArticles, {
+    keys: ["title", "tags"],
+  });
+
+  const results =
+    query === "" ? [] : fuse.search(query).map((result) => result.item);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -103,18 +72,23 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
             <div className="flex items-center px-4 py-2">
               <SearchIcon className="h-6 w-6 text-gray-500" />
               <Combobox.Input
-                className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-sm text-gray-800 placeholder-gray-400 h-12 rounded-lg px-2 mx-2 "
+                className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-gray-800 placeholder-gray-400 h-12 rounded-lg px-2 mx-2"
                 placeholder="Search..."
                 onChange={(event) => setQuery(event.target.value)}
               />
-              <div className="kbd text-xs font-semibold text-gray-500">ESC</div>
+              <button
+                onClick={(e) => setIsOpen(false)}
+                className="ml-auto flex-none text-xs font-semibold kbd text-gray-500"
+              >
+                ESC
+              </button>
             </div>
-            {filteredPeople.length > 0 && (
+            {results.length > 0 && (
               <Combobox.Options className="py-4 text-sm max-h-96 overflow-y-auto">
-                {filteredPeople.map((person) => (
+                {results.map((result, i) => (
                   <Combobox.Option
-                    value={person}
-                    key={person.id}
+                    value={result}
+                    key={i}
                     className="px-2 md:px-8 py-1"
                   >
                     {({ active }) => (
@@ -125,10 +99,12 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
                       >
                         <div className="flex flex-col truncate">
                           <span className="text-xs truncate">
-                            {person.category}
+                            {result.pathSegments.sectionPathName
+                              .replace("-", " ")
+                              .toUpperCase()}
                           </span>
                           <span className="text-lg truncate">
-                            {person.name}
+                            {result.title}
                           </span>
                         </div>
                         <ChevronRightIcon
@@ -142,7 +118,7 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
                 ))}
               </Combobox.Options>
             )}
-            {query && filteredPeople.length === 0 && (
+            {query && results.length === 0 && (
               <p className="px-2 md:px-14 py-5 text-gray-500">
                 No results found.
               </p>
