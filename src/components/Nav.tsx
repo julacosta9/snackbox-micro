@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   MenuIcon,
   DotsVerticalIcon,
@@ -19,6 +19,28 @@ const Nav: React.FC<NavProps> = ({
   setShowCommandPalette,
 }: NavProps) => {
   const [isDarkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    let theme = document.documentElement.attributes["data-theme"];
+    if (theme.value === "light") {
+      theme.value = "dark";
+      localStorage.theme = "dark";
+      setDarkMode(true);
+    } else {
+      theme.value = "light";
+      localStorage.theme = "light";
+      setDarkMode(false);
+    }
+  };
+
+  useEffect(() => {
+    let theme = document.documentElement.attributes["data-theme"];
+    if (theme.value === "light") {
+      setDarkMode(false);
+    } else {
+      setDarkMode(true);
+    }
+  }, []);
 
   return (
     <>
@@ -46,7 +68,7 @@ const Nav: React.FC<NavProps> = ({
             <label
               tabIndex={2}
               className="btn btn-ghost btn-sm bg-white rounded-btn"
-              onClick={() => setDarkMode(!isDarkMode)}
+              onClick={toggleDarkMode}
             >
               {isDarkMode ? (
                 <MoonIcon className="h-5 w-5 text-indigo-700" />
@@ -77,7 +99,7 @@ const Nav: React.FC<NavProps> = ({
                 <li>
                   <a className="normal-case">About</a>
                 </li>
-                <li onClick={() => setDarkMode(!isDarkMode)}>
+                <li onClick={toggleDarkMode}>
                   <a>
                     {isDarkMode ? (
                       <>
