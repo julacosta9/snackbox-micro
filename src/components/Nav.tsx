@@ -21,7 +21,9 @@ const Nav: React.FC<NavProps> = ({
   const [isDarkMode, setDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
-    let theme = document.documentElement.attributes["data-theme"];
+    // https://bobbyhadz.com/blog/typescript-element-implicitly-any-type-not-number
+    let theme: any =
+      document.documentElement.attributes["data-theme" as unknown as number];
     if (theme.value === "light") {
       theme.value = "dark";
       localStorage.theme = "dark";
@@ -34,7 +36,8 @@ const Nav: React.FC<NavProps> = ({
   };
 
   useEffect(() => {
-    let theme = document.documentElement.attributes["data-theme"];
+    let theme: any =
+      document.documentElement.attributes["data-theme" as unknown as number];
     if (theme.value === "light") {
       setDarkMode(false);
     } else {

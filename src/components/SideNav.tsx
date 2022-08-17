@@ -9,7 +9,7 @@ type toc = {
 type NavProps = {
   isCommandPaletteOpen: boolean;
   setShowCommandPalette: (value: boolean) => void;
-  tocTree: toc[];
+  // tocTree: toc[];
 };
 
 //   const sortedArticles: Article[] = allArticles.sort((a, b) => {
@@ -116,17 +116,17 @@ const SideNav: React.FC<NavProps> = ({
           <div className="h-8 bg-gradient-to-b from-base-100"></div>
         </div>
         <div className="flex flex-col gap-y-1">
-          {toc.map((section, i) => (
+          {toc.map((section: toc, i: number) => (
             <div key={i} className="mb-2">
               <div className="font-bold py-3 transition rounded text-base-content/90 text-xs">
                 {section.sectionTitle}
               </div>
-              {section.articles.map((article, j) => (
+              {section.articles.map((article: Article | null, j) => (
                 <div
                   className="py-2 hover:text-primary-content text-base-content/60 transition border-l border-base-content/10 hover:border-transparent hover:bg-primary hover:rounded-tr-lg hover:rounded-br-lg"
                   key={j}
                 >
-                  <span className="ml-5">{article.title}</span>
+                  <span className="ml-5">{article?.title}</span>
                 </div>
               ))}
             </div>
