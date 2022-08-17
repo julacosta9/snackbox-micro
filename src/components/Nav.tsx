@@ -48,7 +48,7 @@ const Nav: React.FC<NavProps> = ({
   return (
     <>
       <div className="w-full fixed border-b-[1px] border-base-200 bg-base-100/60 backdrop-blur">
-        <div className="max-w-7xl mx-auto justify-between flex items-center py-1 lg:py-2 px-1 sm:px-3 md:px-4 lg:px-8">
+        <div className="max-w-7xl mx-auto justify-between flex items-center py-2 px-1 sm:px-3 md:px-4 lg:px-8">
           <label
             htmlFor="my-drawer"
             tabIndex={0}
