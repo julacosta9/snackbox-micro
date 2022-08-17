@@ -21,6 +21,7 @@ const SideNav: React.FC<NavProps> = ({
   setShowCommandPalette,
 }: NavProps) => {
   const [toc, setToc] = useState<any>([]);
+  const [isMacOs, setMacOs] = useState<boolean>(false);
 
   useEffect(() => {
     const tocTree: toc[] = [
@@ -62,15 +63,24 @@ const SideNav: React.FC<NavProps> = ({
     setToc(tocTree);
   }, []);
 
+  useEffect(() => {
+    const isMac =
+      typeof window !== "undefined"
+        ? navigator.userAgent.indexOf("Mac") >= 0
+        : false;
+
+    setMacOs(isMac);
+  }, []);
+
   return (
     <div className="hidden lg:block fixed z-20 inset-0 top-[5rem] left-[max(0px,calc(50%-40rem))] right-auto w-[19.5rem] pb-10 px-8 overflow-y-auto">
       <nav id="nav" className="lg:text-sm lg:leading-6 relative">
         <div className="sticky top-0 -ml-0.5 pointer-events-none">
-          <div className="h-8 bg-white"></div>
-          <div className="bg-white relative pointer-events-auto">
+          <div className="h-8 bg-base-100"></div>
+          <div className="bg-base-100 relative pointer-events-auto">
             <button
               type="button"
-              className="hidden w-full lg:flex items-center text-sm leading-6 text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300"
+              className="hidden w-full lg:flex items-center text-sm leading-6 text-base-content/40 rounded-md ring-1 ring-base-200 shadow py-1.5 pl-2 pr-3 hover:ring-primary"
               onClick={(e) => setShowCommandPalette(!isCommandPaletteOpen)}
             >
               <svg
@@ -98,25 +108,25 @@ const SideNav: React.FC<NavProps> = ({
                 ></circle>
               </svg>
               Quick search...
-              <span className="ml-auto flex-none text-xs font-semibold kbd text-gray-500">
-                ⌘K
+              <span className="ml-auto flex-none text-xs font-semibold kbd text-base-content/60">
+                {isMacOs ? "⌘K" : "CTRL + K"}
               </span>
             </button>
           </div>
-          <div className="h-8 bg-gradient-to-b from-white"></div>
+          <div className="h-8 bg-gradient-to-b from-base-100"></div>
         </div>
         <div className="flex flex-col gap-y-1">
           {toc.map((section, i) => (
             <div key={i} className="mb-2">
-              <div className="font-bold py-3 transition rounded text-base-content">
+              <div className="font-bold py-3 transition rounded text-base-content/90 text-xs">
                 {section.sectionTitle}
               </div>
               {section.articles.map((article, j) => (
                 <div
-                  className="py-1 hover:text-base-content text-base-content/60 transition border-l hover:border-primary rounded-tr rounded-br"
+                  className="py-2 hover:text-primary-content text-base-content/60 transition border-l border-base-content/10 hover:border-transparent hover:bg-primary hover:rounded-tr-lg hover:rounded-br-lg"
                   key={j}
                 >
-                  <span className="ml-6">{article.title}</span>
+                  <span className="ml-5">{article.title}</span>
                 </div>
               ))}
             </div>

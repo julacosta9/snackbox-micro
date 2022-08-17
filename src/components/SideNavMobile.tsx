@@ -57,17 +57,17 @@ const SideNavMobile: React.FC = () => {
       ></label>
       <nav
         id="nav"
-        className="bg-white lg:text-sm lg:leading-6 relative w-1/2 min-w-[250px]"
+        className="bg-base-100 lg:text-sm lg:leading-6 relative w-1/2 min-w-[250px]"
       >
         <div className="flex flex-col gap-y-1 pt-2 pl-6 pr-2">
           {toc.map((section, i) => (
             <div key={i} className="mb-2">
-              <div className="font-bold py-3 transition rounded text-base-content mb-2">
+              <div className="font-bold py-3 transition rounded text-base-content/80 mb-2">
                 {section.sectionTitle}
               </div>
               {section.articles.map((article, j) => (
                 <div
-                  className="py-2 text-lg hover:text-base-content text-base-content/60 transition border-l hover:border-primary rounded-tr rounded-br"
+                  className="py-2 text-lg hover:text-primary-content text-base-content transition border-l border-base-content/20 hover:border-primary hover:bg-primary/80 rounded-tr-sm rounded-br-sm"
                   key={j}
                 >
                   <span className="ml-6">{article.title}</span>

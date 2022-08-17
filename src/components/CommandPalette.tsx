@@ -67,18 +67,18 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
               router.push(`/`);
             }}
             as="div"
-            className="relative bg-white max-w-3xl mx-auto rounded-xl shadow-2xl w-full ring-1 ring-black/5 divide-y"
+            className="relative bg-base-100 max-w-3xl mx-auto rounded-xl shadow-2xl w-full ring-1 ring-base-300/5 divide-y divide-base-200"
           >
             <div className="flex items-center px-4 py-2">
-              <SearchIcon className="h-6 w-6 text-gray-500" />
+              <SearchIcon className="h-6 w-6 text-base-content/40" />
               <Combobox.Input
-                className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-gray-800 placeholder-gray-400 h-12 rounded-lg px-2 mx-2"
+                className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-base-content placeholder-base-content/40 h-12 rounded-lg px-2 mx-2"
                 placeholder="Search..."
                 onChange={(event) => setQuery(event.target.value)}
               />
               <button
                 onClick={(e) => setIsOpen(false)}
-                className="ml-auto flex-none text-xs font-semibold kbd text-gray-500"
+                className="ml-auto flex-none text-xs font-semibold kbd text-base-content/60 hover:ring-1 hover:ring-primary"
               >
                 ESC
               </button>
@@ -94,7 +94,9 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
                     {({ active }) => (
                       <div
                         className={`flex items-center px-4 py-3 gap-y-1 rounded-xl ${
-                          active ? "bg-primary text-white" : "bg-slate-100"
+                          active
+                            ? "bg-primary text-primary-content"
+                            : "bg-base-300 text-base-content"
                         }`}
                       >
                         <div className="flex flex-col truncate">
@@ -107,11 +109,7 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
                             {result.title}
                           </span>
                         </div>
-                        <ChevronRightIcon
-                          className={`w-5 h-5 ml-auto ${
-                            active ? "text-white" : "text-base-content"
-                          }`}
-                        />
+                        <ChevronRightIcon className="w-5 h-5 ml-auto" />
                       </div>
                     )}
                   </Combobox.Option>
@@ -119,7 +117,7 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
               </Combobox.Options>
             )}
             {query && results.length === 0 && (
-              <p className="px-2 md:px-14 py-5 text-gray-500">
+              <p className="px-2 md:px-14 py-5 text-base-content">
                 No results found.
               </p>
             )}

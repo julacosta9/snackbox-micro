@@ -37,12 +37,12 @@ function ArticleCard(article: Article) {
     <div className="mb-8">
       <h2 className="text-xl">
         <Link href={article.url}>
-          <a className="text-blue-700 hover:text-blue-900">{article.title}</a>
+          <a className="text-base-content">{article.title}</a>
         </Link>
       </h2>
       <time
         dateTime={article.last_edited}
-        className="block text-xs text-gray-600 mb-2"
+        className="block text-xs text-base-content mb-2"
       >
         {format(parseISO(article.last_edited), "LLLL d, yyyy")}
       </time>

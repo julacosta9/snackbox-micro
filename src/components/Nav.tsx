@@ -21,21 +21,21 @@ const Nav: React.FC<NavProps> = ({
   const [isDarkMode, setDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
-    let theme: string = document.documentElement.attributes["data-theme"].value;
-    if (theme === "light") {
-      theme = "dark";
+    let theme = document.documentElement.attributes["data-theme"];
+    if (theme.value === "light") {
+      theme.value = "dark";
       localStorage.theme = "dark";
       setDarkMode(true);
     } else {
-      theme = "light";
+      theme.value = "light";
       localStorage.theme = "light";
       setDarkMode(false);
     }
   };
 
   useEffect(() => {
-    let theme: string = document.documentElement.attributes["data-theme"].value;
-    if (theme === "light") {
+    let theme = document.documentElement.attributes["data-theme"];
+    if (theme.value === "light") {
       setDarkMode(false);
     } else {
       setDarkMode(true);
@@ -44,7 +44,7 @@ const Nav: React.FC<NavProps> = ({
 
   return (
     <>
-      <div className="w-full fixed border-b-[1px] border-gray-100 bg-white/30 backdrop-blur">
+      <div className="w-full fixed border-b-[1px] border-base-200 bg-base-100/60 backdrop-blur">
         <div className="max-w-7xl mx-auto justify-between flex items-center py-1 lg:py-2 px-1 sm:px-3 md:px-4 lg:px-8">
           <label
             htmlFor="my-drawer"
@@ -58,20 +58,24 @@ const Nav: React.FC<NavProps> = ({
               <span className="lowercase text-secondary transition">
                 sbmicro
               </span>{" "}
-              <span className="capitalize">hub</span>
+              <span className="capitalize text-base-content">hub</span>
             </div>
           </Link>
           <div className="hidden lg:flex gap-x-1">
-            <a className="btn btn-ghost btn-sm bg-white normal-case">Gallery</a>
-            <a className="btn btn-ghost btn-sm bg-white normal-case">About</a>
-            <div className="divider divider-horizontal mx-0 bg-"></div>
+            <a className="btn btn-ghost btn-sm bg-base-200 hover:bg-base-300 normal-case">
+              Gallery
+            </a>
+            <a className="btn btn-ghost btn-sm bg-base-200 hover:bg-base-300 normal-case">
+              About
+            </a>
+            <div className="divider divider-horizontal mx-0"></div>
             <label
               tabIndex={2}
-              className="btn btn-ghost btn-sm bg-white rounded-btn"
+              className="btn btn-ghost btn-sm bg-base-200 hover:bg-base-300 rounded-btn"
               onClick={toggleDarkMode}
             >
               {isDarkMode ? (
-                <MoonIcon className="h-5 w-5 text-indigo-700" />
+                <MoonIcon className="h-5 w-5 text-indigo-600" />
               ) : (
                 <SunIcon className="h-5 w-5 text-amber-500" />
               )}
@@ -91,7 +95,7 @@ const Nav: React.FC<NavProps> = ({
               </label>
               <ul
                 tabIndex={0}
-                className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4"
+                className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4 border border-base-200"
               >
                 <li>
                   <a className="normal-case">Gallery</a>
@@ -104,7 +108,7 @@ const Nav: React.FC<NavProps> = ({
                     {isDarkMode ? (
                       <>
                         Dark Mode
-                        <MoonIcon className="h-5 w-5 text-indigo-700" />
+                        <MoonIcon className="h-5 w-5 text-indigo-600" />
                       </>
                     ) : (
                       <>
