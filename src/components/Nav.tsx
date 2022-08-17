@@ -21,21 +21,21 @@ const Nav: React.FC<NavProps> = ({
   const [isDarkMode, setDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
-    let theme = document.documentElement.attributes["data-theme"];
-    if (theme.value === "light") {
-      theme.value = "dark";
+    let theme: string = document.documentElement.attributes["data-theme"].value;
+    if (theme === "light") {
+      theme = "dark";
       localStorage.theme = "dark";
       setDarkMode(true);
     } else {
-      theme.value = "light";
+      theme = "light";
       localStorage.theme = "light";
       setDarkMode(false);
     }
   };
 
   useEffect(() => {
-    let theme = document.documentElement.attributes["data-theme"];
-    if (theme.value === "light") {
+    let theme: string = document.documentElement.attributes["data-theme"].value;
+    if (theme === "light") {
       setDarkMode(false);
     } else {
       setDarkMode(true);
