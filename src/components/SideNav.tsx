@@ -34,6 +34,7 @@ const SideNav: React.FC<NavProps> = ({
   let timer: null | ReturnType<typeof setTimeout> = null;
 
   const handleHover = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    // @ts-ignore
     setTranslateY(e.target.offsetTop);
     setShowHover(true);
     if (timer) {
