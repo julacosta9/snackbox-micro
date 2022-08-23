@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { allArticles, Article } from "contentlayer/generated";
 
 type toc = {
@@ -27,13 +29,19 @@ const SideNav: React.FC<NavProps> = ({
     useState<boolean>(true);
   const [translateY, setTranslateY] = useState<number>(0);
 
+  const router = useRouter();
+
+  const isActive = (article: Article) =>
+    router.asPath ===
+    `/articles/${article.pathSegments.sectionPathName}/${article.pathSegments.articlePathName}`;
+
   const enableTransitionDuration = () => {
     setNoTransitionDuration(true);
   };
 
   let timer: null | ReturnType<typeof setTimeout> = null;
 
-  const handleHover = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleHover = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     // @ts-ignore
     setTranslateY(e.target.offsetTop);
     setShowHover(true);
@@ -43,7 +51,7 @@ const SideNav: React.FC<NavProps> = ({
   };
 
   const handleMouseLeave = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     setShowHover(false);
     setNoTransitionDuration(false);
@@ -100,14 +108,14 @@ const SideNav: React.FC<NavProps> = ({
   }, []);
 
   return (
-    <div className="hidden lg:block fixed z-20 inset-0 top-[5rem] left-[max(0px,calc(50%-40rem))] right-auto w-[19.5rem] pb-10 px-8 overflow-y-auto">
-      <nav id="nav" className="lg:text-sm lg:leading-6 relative">
-        <div className="sticky top-0 -ml-0.5 pointer-events-none z-10">
+    <div className="fixed inset-0 top-[5rem] left-[max(0px,calc(50%-40rem))] right-auto z-20 hidden w-[19.5rem] overflow-y-auto px-8 pb-10 lg:block">
+      <nav id="nav" className="relative lg:text-sm lg:leading-6">
+        <div className="pointer-events-none sticky top-0 z-10 -ml-0.5">
           <div className="h-8 bg-base-100"></div>
-          <div className="bg-base-100 relative pointer-events-auto">
+          <div className="pointer-events-auto relative bg-base-100">
             <button
               type="button"
-              className="hidden w-full lg:flex items-center text-sm leading-6 text-base-content/40 rounded-md ring-1 ring-base-200 shadow py-1.5 pl-2 pr-3 hover:ring-primary"
+              className="hidden w-full items-center rounded-md py-1.5 pl-2 pr-3 text-sm leading-6 text-base-content/40 shadow ring-1 ring-base-300 hover:ring-primary lg:flex"
               onClick={(e) => setShowCommandPalette(!isCommandPaletteOpen)}
             >
               <svg
@@ -135,40 +143,48 @@ const SideNav: React.FC<NavProps> = ({
                 ></circle>
               </svg>
               Quick search...
-              <span className="ml-auto flex-none text-xs font-semibold kbd text-base-content/60">
+              <span className="kbd ml-auto flex-none text-xs font-semibold text-base-content/60">
                 {isMacOs ? "⌘K" : "CTRL + K"}
               </span>
             </button>
           </div>
           <div className="h-8 bg-gradient-to-b from-base-100"></div>
         </div>
-        <div className="flex flex-col gap-y-1 relative">
+        <div className="relative flex flex-col gap-y-1">
           <div
             className={`${showHover ? "opacity-100" : "opacity-0"} ${
               noTransitionDuration ? "duration-[0ms]" : "duration-75"
-            } w-full bg-primary h-10 -z-10 absolute top-0 left-0 rounded-lg ease-in transition-all`}
+            } absolute top-0 left-0 -z-10 h-10 w-full rounded-lg bg-primary transition-all ease-in`}
             style={{ transform: `translateY(${translateY}px)` }}
           ></div>
           {toc.map((section: toc, i: number) => (
             <div key={i} className="mb-2">
-              <div className="font-bold py-3 rounded text-base-content/90 text-xs">
+              <div className="rounded py-3 text-xs font-bold text-base-content/90">
                 {section.sectionTitle}
               </div>
               {section.articles.map((article: Article | null, j) => (
-                <div
-                  className={`${
-                    noTransitionDuration ? "duration-[0ms]" : "duration-200"
-                  } py-2 hover:text-primary-content text-base-content/60 transition-all duration-75 border-l border-base-content/10 hover:border-transparent hover:rounded-tr-lg hover:rounded-br-lg`}
+                <Link
+                  href={`/articles/${article?.pathSegments.sectionPathName}/${article?.pathSegments.articlePathName}`}
                   key={j}
-                  onMouseEnter={(
-                    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                  ) => handleHover(e)}
-                  onMouseLeave={(
-                    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                  ) => handleMouseLeave(e)}
                 >
-                  <span className="ml-5 w-full">{article?.title}</span>
-                </div>
+                  <a
+                    className={`${
+                      noTransitionDuration ? "duration-[0ms]" : "duration-200"
+                    } ${
+                      isActive(article!)
+                        ? "rounded-lg bg-primary font-bold text-primary-content hover:bg-primary-focus"
+                        : ""
+                    } block border-l border-base-content/10 py-2 text-base-content/60 transition-all duration-75 hover:rounded-tr-lg hover:rounded-br-lg hover:border-transparent hover:text-primary-content`}
+                    onMouseEnter={(
+                      e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+                    ) => handleHover(e)}
+                    onMouseLeave={(
+                      e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+                    ) => handleMouseLeave(e)}
+                  >
+                    <span className="ml-5 w-full">{article?.title}</span>
+                  </a>
+                </Link>
               ))}
             </div>
           ))}

@@ -1,8 +1,7 @@
-import type { NextPage } from "next";
+import type { ReactElement } from "react";
 import Head from "next/head";
-import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import LayoutDefault from "src/components/LayoutDefault";
 import { allArticles, Article } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import { compareDesc, format, parseISO } from "date-fns";
@@ -36,13 +35,15 @@ function ArticleCard(article: Article) {
   return (
     <div className="mb-8">
       <h2 className="text-xl">
-        <Link href={article.url}>
+        <Link
+          href={`/articles/${article.pathSegments.sectionPathName}/${article.pathSegments.articlePathName}`}
+        >
           <a className="text-base-content">{article.title}</a>
         </Link>
       </h2>
       <time
         dateTime={article.last_edited}
-        className="block text-xs text-base-content mb-2"
+        className="mb-2 block text-xs text-base-content"
       >
         {format(parseISO(article.last_edited), "LLLL d, yyyy")}
       </time>
@@ -59,5 +60,9 @@ function ArticleCard(article: Article) {
     </div>
   );
 }
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return <LayoutDefault>{page}</LayoutDefault>;
+};
 
 export default Home;

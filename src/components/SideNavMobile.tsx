@@ -50,24 +50,24 @@ const SideNavMobile: React.FC = () => {
   }, []);
 
   return (
-    <div className="overflow-y-auto drawer-side">
+    <div className="drawer-side overflow-y-auto">
       <label
         htmlFor="my-drawer"
         className="drawer-overlay backdrop-blur-sm"
       ></label>
       <nav
         id="nav"
-        className="bg-base-100 lg:text-sm lg:leading-6 relative w-1/2 min-w-[250px] shadow-lg border-r border-base-200"
+        className="relative w-1/2 min-w-[250px] border-r border-base-200 bg-base-100 shadow-lg lg:text-sm lg:leading-6"
       >
         <div className="flex flex-col gap-y-1 pt-2 pl-6 pr-2">
           {toc.map((section: toc, i: number) => (
             <div key={i} className="mb-2">
-              <div className="font-bold text-xs py-3 transition rounded text-base-content/80 mb-2">
+              <div className="mb-2 rounded py-3 text-xs font-bold text-base-content/80 transition">
                 {section.sectionTitle}
               </div>
               {section.articles.map((article: Article | null, j) => (
                 <div
-                  className="py-2 hover:text-primary-content text-base-content transition border-l border-base-content/20 hover:border-primary hover:bg-primary/80 rounded-tr rounded-br"
+                  className="rounded-tr rounded-br border-l border-base-content/20 py-2 text-base-content transition hover:border-primary hover:bg-primary/80 hover:text-primary-content"
                   key={j}
                 >
                   <span className="ml-6">{article?.title}</span>

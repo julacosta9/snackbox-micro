@@ -47,7 +47,7 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
           setIsOpen(false);
           // TODO ADD CLOSE ACTIONS
         }}
-        className="fixed inset-0 overflow-y-auto p-4 lg:pt-[25vh] transi"
+        className="transi fixed inset-0 overflow-y-auto p-4 lg:pt-[25vh]"
       >
         <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm" />
         <Transition.Child
@@ -67,49 +67,54 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
               router.push(`/`);
             }}
             as="div"
-            className="relative bg-base-100 max-w-3xl mx-auto rounded-xl shadow-2xl w-full ring-1 ring-base-300/5 divide-y divide-base-200"
+            className="relative mx-auto w-full max-w-3xl divide-y divide-base-200 rounded-xl bg-base-100 shadow-2xl ring-1 ring-base-300/5"
           >
             <div className="flex items-center px-4 py-2">
               <SearchIcon className="h-6 w-6 text-base-content/40" />
               <Combobox.Input
-                className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-base-content placeholder-base-content/40 h-12 rounded-lg px-2 mx-2"
+                className="mx-2 h-12 w-full rounded-lg border-0 bg-transparent px-2 text-base-content placeholder-base-content/40 focus:outline-none focus:ring-0"
                 placeholder="Search..."
                 onChange={(event) => setQuery(event.target.value)}
               />
               <button
                 onClick={(e) => setIsOpen(false)}
-                className="ml-auto flex-none text-xs font-semibold kbd text-base-content/60 hover:ring-1 hover:ring-primary"
+                className="kbd ml-auto flex-none text-xs font-semibold text-base-content/60 hover:ring-1 hover:ring-primary"
               >
                 ESC
               </button>
             </div>
             {results.length > 0 && (
-              <Combobox.Options className="py-4 text-sm max-h-96 overflow-y-auto">
+              <Combobox.Options className="max-h-96 overflow-y-auto py-4 text-sm">
                 {results.map((result, i) => (
                   <Combobox.Option
                     value={result}
                     key={i}
-                    className="px-2 md:px-8 py-1"
+                    className="px-2 py-1 md:px-8"
                   >
                     {({ active }) => (
                       <div
-                        className={`flex items-center px-4 py-3 gap-y-1 rounded-xl ${
+                        className={`flex items-center gap-y-1 rounded-xl px-4 py-3 ${
                           active
                             ? "bg-primary text-primary-content"
-                            : "bg-base-300 text-base-content"
+                            : "bg-base-200 text-base-content"
                         }`}
                       >
                         <div className="flex flex-col truncate">
-                          <span className="text-xs truncate">
-                            {result.pathSegments.sectionPathName
-                              .replace("-", " ")
-                              .toUpperCase()}
+                          <span
+                            className={`${
+                              active ? "" : "text-base-content/70"
+                            } truncate text-xs uppercase`}
+                          >
+                            {result.pathSegments.sectionPathName.replace(
+                              "-",
+                              " "
+                            )}
                           </span>
-                          <span className="text-lg truncate">
+                          <span className="truncate text-lg">
                             {result.title}
                           </span>
                         </div>
-                        <ChevronRightIcon className="w-5 h-5 ml-auto" />
+                        <ChevronRightIcon className="ml-auto h-5 w-5" />
                       </div>
                     )}
                   </Combobox.Option>
@@ -117,7 +122,7 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
               </Combobox.Options>
             )}
             {query && results.length === 0 && (
-              <p className="px-2 md:px-14 py-5 text-base-content">
+              <p className="px-2 py-5 text-base-content md:px-14">
                 No results found.
               </p>
             )}

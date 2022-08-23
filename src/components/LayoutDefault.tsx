@@ -1,15 +1,15 @@
 import { useState } from "react";
-import Nav from "../components/Nav";
-import SideNav from "../components/SideNav";
+import Nav from "./Nav";
+import SideNav from "./SideNav";
 import SideNavMobile from "./SideNavMobile";
 import CommandPalette from "./CommandPalette";
-import Footer from "../components/Footer";
+import Footer from "./Footer";
 
 type Props = {
   children: React.ReactNode;
 };
 
-const Layout = ({ children }: Props) => {
+const LayoutDefault = ({ children }: Props) => {
   const [showCommandPalette, setShowCommandPalette] = useState<boolean>(false);
 
   return (
@@ -24,7 +24,7 @@ const Layout = ({ children }: Props) => {
           isCommandPaletteOpen={showCommandPalette}
           setShowCommandPalette={setShowCommandPalette}
         />
-        <div className="flex max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        <div className="mx-auto flex max-w-7xl px-4 sm:px-6 md:px-8">
           <SideNav
             isCommandPaletteOpen={showCommandPalette}
             setShowCommandPalette={setShowCommandPalette}
@@ -42,7 +42,7 @@ const Layout = ({ children }: Props) => {
 
 const Content = ({ children }: Props) => {
   return (
-    <div className="flex flex-col min-h-full">
+    <div className="flex min-h-full flex-col">
       <div className="mx-auto">
         <div className="pt-8 lg:pt-12 lg:pl-[19.5rem]">
           <main>{children}</main>
@@ -52,4 +52,4 @@ const Content = ({ children }: Props) => {
   );
 };
 
-export default Layout;
+export default LayoutDefault;

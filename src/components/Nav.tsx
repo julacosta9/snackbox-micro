@@ -47,76 +47,84 @@ const Nav: React.FC<NavProps> = ({
 
   return (
     <>
-      <div className="w-full fixed border-b-[1px] border-base-200 bg-base-100/60 backdrop-blur">
-        <div className="max-w-7xl mx-auto justify-between flex items-center py-2 px-1 sm:px-3 md:px-4 lg:px-8">
+      <div className="fixed w-full border-b-[1px] border-base-200 bg-base-100/60 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center py-2 px-1 sm:px-3 md:px-4 lg:justify-between lg:px-8">
           <label
             htmlFor="my-drawer"
             tabIndex={0}
-            className="lg:hidden btn btn-ghost btn-sm rounded-btn drawer-button"
+            className="btn btn-ghost btn-sm drawer-button rounded-btn mr-1 lg:hidden"
           >
             <MenuIcon className="h-6 w-6" />
           </label>
           <Link href="/" aria-current="page" aria-label="Homepage" tabIndex={1}>
-            <div className="flex-0 pr-2 inline-flex text-lg transition-all duration-200 lg:text-3xl leading-normal font-extrabold text-gray-700 cursor-pointer">
+            <div className="flex-0 inline-flex cursor-pointer text-lg font-extrabold leading-normal text-gray-700 transition-all duration-200 lg:text-3xl">
               <span className="lowercase text-secondary transition">
                 sbmicro
               </span>{" "}
               <span className="capitalize text-base-content">hub</span>
             </div>
           </Link>
-          <div className="hidden lg:flex gap-x-1">
-            <a className="btn btn-ghost btn-sm bg-base-200 hover:bg-base-300 normal-case">
-              Gallery
-            </a>
-            <a className="btn btn-ghost btn-sm bg-base-200 hover:bg-base-300 normal-case">
-              About
-            </a>
+          <div className="hidden gap-x-1 lg:flex">
+            <Link href={"/gallery"}>
+              <a className="btn btn-ghost btn-sm bg-base-200 normal-case hover:bg-base-300">
+                Gallery
+              </a>
+            </Link>
+            <Link href={"/about"}>
+              <a className="btn btn-ghost btn-sm bg-base-200 normal-case hover:bg-base-300">
+                About
+              </a>
+            </Link>
             <div className="divider divider-horizontal mx-0"></div>
             <label
               tabIndex={2}
-              className="btn btn-ghost btn-sm bg-base-200 hover:bg-base-300 rounded-btn"
+              className="btn btn-ghost btn-sm rounded-btn bg-base-200 hover:bg-base-300"
               onClick={toggleDarkMode}
             >
               {isDarkMode ? (
-                <MoonIcon className="h-5 w-5 text-indigo-600" />
-              ) : (
                 <SunIcon className="h-5 w-5 text-amber-500" />
+              ) : (
+                <MoonIcon className="h-5 w-5 text-indigo-600" />
               )}
             </label>
           </div>
-          <div className="flex items-center lg:hidden gap-x-1">
+          <div className="ml-auto flex items-center gap-x-1 lg:hidden">
             <label
               tabIndex={2}
               className="btn btn-ghost btn-sm rounded-btn"
               onClick={(e) => setShowCommandPalette(!isCommandPaletteOpen)}
             >
-              <SearchIcon className="lg:hidden h-5 w-5" />
+              <SearchIcon className="h-5 w-5 lg:hidden" />
             </label>
-            <div className="lg:hidden dropdown dropdown-end">
+            <div className="dropdown dropdown-end lg:hidden">
               <label tabIndex={3} className="btn btn-ghost btn-sm rounded-btn">
                 <DotsVerticalIcon className="h-5 w-5" />
               </label>
               <ul
                 tabIndex={0}
-                className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4 border border-base-200"
+                className="dropdown-content menu rounded-box mt-4 w-52 border border-base-200 bg-base-100 p-2 shadow"
               >
                 <li>
-                  <a className="normal-case">Gallery</a>
+                  <Link href={"/gallery"}>
+                    <a className="normal-case">Gallery</a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="normal-case">About</a>
+                  <Link href={"/about"}>
+                    <a className="normal-case">About</a>
+                  </Link>
                 </li>
                 <li onClick={toggleDarkMode}>
                   <a>
                     {isDarkMode ? (
                       <>
-                        Dark Mode
-                        <MoonIcon className="h-5 w-5 text-indigo-600" />
+                        Light Mode
+                        <SunIcon className="h-5 w-5 text-amber-500" />
                       </>
                     ) : (
                       <>
-                        Light Mode
-                        <SunIcon className="h-5 w-5 text-amber-500" />
+                        Dark Mode
+                        <MoonIcon className="h-5 w-5 text-indigo-600" />
                       </>
                     )}
                   </a>
