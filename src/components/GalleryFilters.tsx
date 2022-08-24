@@ -265,13 +265,12 @@ const GalleryFilters: React.FC = () => {
                 <h3 className="rounded-lg bg-base-300 p-3 text-sm font-bold text-base-content">
                   Case type
                 </h3>
-                <div className="py-2 pl-4">
+                <div className="py-2 pl-2">
                   {cases.map((item: Case, i: number) => (
                     <label
-                      className="label cursor-pointer rounded-lg px-2 hover:bg-accent/10"
+                      className="flex cursor-pointer select-none items-center gap-x-3 rounded-lg py-1 px-2 hover:bg-accent/10"
                       key={i}
                     >
-                      <span className="label-text">{item.name}</span>
                       <input
                         type="checkbox"
                         name={item.value}
@@ -279,31 +278,31 @@ const GalleryFilters: React.FC = () => {
                         checked={selectedCaseType[`${item.value}`]}
                         onChange={handleCaseChange}
                       />
+                      <span className="label-text">{item.name}</span>
                     </label>
                   ))}
                 </div>
                 <h3 className="rounded-lg bg-base-300 p-3 text-sm font-bold text-base-content">
                   Button color
                 </h3>
-                <div className="py-2 pl-4">
-                  <label className="label cursor-pointer rounded-lg px-2 hover:bg-accent/10">
-                    <span className="label-text">All one button color</span>
+                <div className="py-2 pl-2">
+                  <label className="flex cursor-pointer select-none items-center gap-x-3 rounded-lg py-1 px-2 hover:bg-accent/10">
                     <input
                       type="checkbox"
                       className="toggle toggle-accent toggle-sm"
                       checked={allOneButtonColor}
                       onChange={handleOnebuttonColorChange}
                     />
+                    <span className="label-text">All one button color</span>
                   </label>
                   <div className="my-3 text-xs font-bold text-base-content/70">
                     {allOneButtonColor ? "Select 1:" : "Select multiple:"}
                   </div>
                   {buttonColors.map((color: Button, i: number) => (
                     <label
-                      className="label cursor-pointer rounded-lg px-2 hover:bg-accent/10"
+                      className="flex cursor-pointer select-none items-center gap-x-3 rounded-lg py-1 px-2 hover:bg-accent/10"
                       key={i}
                     >
-                      <span className="label-text">{color.name}</span>
                       <input
                         type="checkbox"
                         name={color.value}
@@ -319,19 +318,19 @@ const GalleryFilters: React.FC = () => {
                             : "rounded"
                         }`}
                       />
+                      <span className="label-text">{color.name}</span>
                     </label>
                   ))}
                 </div>
                 <h3 className="rounded-lg bg-base-300 p-3 text-sm font-bold text-base-content">
                   Button shape
                 </h3>
-                <div className="py-2 pl-4">
+                <div className="py-2 pl-2">
                   {buttonShapes.map((shape: ButtonShape, i: number) => (
                     <label
-                      className="label cursor-pointer rounded-lg px-2 hover:bg-accent/10"
+                      className="flex cursor-pointer select-none items-center gap-x-3 rounded-lg py-1 px-2 hover:bg-accent/10"
                       key={i}
                     >
-                      <span className="label-text">{shape.name}</span>
                       <input
                         type="checkbox"
                         name={shape.value}
@@ -339,6 +338,7 @@ const GalleryFilters: React.FC = () => {
                         onChange={handleButtonShapeChange}
                         className="checkbox checkbox-accent checkbox-xs rounded"
                       />
+                      <span className="label-text">{shape.name}</span>
                     </label>
                   ))}
                 </div>
