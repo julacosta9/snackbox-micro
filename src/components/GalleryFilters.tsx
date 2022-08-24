@@ -309,7 +309,7 @@ const GalleryFilters: React.FC = () => {
                         name={color.value}
                         checked={selectedButtonColors[`${color.value}`]}
                         onChange={handleButtonColorChange}
-                        className={`${
+                        className={`checkbox checkbox-xs ${
                           allOneButtonColor
                             ? "rounded-full bg-base-200"
                             : "checkbox-accent"
@@ -317,7 +317,7 @@ const GalleryFilters: React.FC = () => {
                           selectedButtonColors[color.value]
                             ? "checkbox-accent rounded"
                             : "rounded"
-                        } checkbox checkbox-xs`}
+                        }`}
                       />
                     </label>
                   ))}
