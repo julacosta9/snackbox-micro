@@ -50,7 +50,7 @@ const Nav: React.FC<NavProps> = ({
 
   return (
     <>
-      <div className="fixed z-10 w-full border-b-[1px] border-base-200 bg-base-100/60 backdrop-blur">
+      <div className="fixed z-10 w-full border-b-[1px] border-base-200 bg-base-100/70 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center py-2 px-1 sm:px-3 md:px-4 lg:justify-between lg:px-8">
           <label
             htmlFor="my-drawer"
@@ -96,6 +96,22 @@ const Nav: React.FC<NavProps> = ({
             </label>
           </div>
           <div className="ml-auto flex items-center gap-x-1 lg:hidden">
+            <Link href={"/gallery"}>
+              <a className="btn btn-ghost btn-sm rounded-btn normal-case">
+                Gallery
+              </a>
+            </Link>
+            <label
+              tabIndex={2}
+              className="btn btn-ghost btn-sm rounded-btn"
+              onClick={toggleDarkMode}
+            >
+              {isDarkMode ? (
+                <SunIcon className="h-5 w-5 text-amber-500" />
+              ) : (
+                <MoonIcon className="h-5 w-5 text-indigo-600" />
+              )}
+            </label>
             <label
               tabIndex={2}
               className="btn btn-ghost btn-sm rounded-btn"
@@ -103,7 +119,7 @@ const Nav: React.FC<NavProps> = ({
             >
               <MagnifyingGlassIcon className="h-5 w-5 lg:hidden" />
             </label>
-            <div className="dropdown-end dropdown lg:hidden">
+            {/* <div className="dropdown dropdown-end lg:hidden">
               <label tabIndex={3} className="btn btn-ghost btn-sm rounded-btn">
                 <EllipsisVerticalIcon className="h-5 w-5" />
               </label>
@@ -137,7 +153,7 @@ const Nav: React.FC<NavProps> = ({
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
