@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Nav from "./Nav";
 import SideNav from "./SideNav";
-import SideNavMobile from "./SideNavMobile";
 import CommandPalette from "./CommandPalette";
 import Footer from "./Footer";
 
@@ -13,7 +12,7 @@ const LayoutDefault = ({ children }: Props) => {
   const [showCommandPalette, setShowCommandPalette] = useState<boolean>(false);
 
   return (
-    <div className="drawer-mobile drawer">
+    <div className="drawer drawer-mobile">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         <CommandPalette
