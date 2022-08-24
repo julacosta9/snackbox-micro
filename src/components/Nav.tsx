@@ -1,13 +1,14 @@
-import type { NextPage } from "next";
-import Link from "next/link";
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import {
-  MenuIcon,
-  DotsVerticalIcon,
-  SearchIcon,
   SunIcon,
   MoonIcon,
-} from "@heroicons/react/outline";
+  Bars3Icon,
+  MagnifyingGlassIcon,
+  EllipsisVerticalIcon,
+  AdjustmentsHorizontalIcon,
+} from "@heroicons/react/24/outline";
 
 type NavProps = {
   isCommandPaletteOpen: boolean;
@@ -19,6 +20,8 @@ const Nav: React.FC<NavProps> = ({
   setShowCommandPalette,
 }: NavProps) => {
   const [isDarkMode, setDarkMode] = useState(false);
+
+  const router = useRouter();
 
   const toggleDarkMode = () => {
     // https://bobbyhadz.com/blog/typescript-element-implicitly-any-type-not-number
@@ -47,14 +50,18 @@ const Nav: React.FC<NavProps> = ({
 
   return (
     <>
-      <div className="fixed w-full border-b-[1px] border-base-200 bg-base-100/60 backdrop-blur">
+      <div className="fixed z-10 w-full border-b-[1px] border-base-200 bg-base-100/60 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center py-2 px-1 sm:px-3 md:px-4 lg:justify-between lg:px-8">
           <label
             htmlFor="my-drawer"
             tabIndex={0}
             className="btn btn-ghost btn-sm drawer-button rounded-btn mr-1 lg:hidden"
           >
-            <MenuIcon className="h-6 w-6" />
+            {router.route === "/gallery" ? (
+              <AdjustmentsHorizontalIcon className="h-6 w-6" />
+            ) : (
+              <Bars3Icon className="h-6 w-6" />
+            )}
           </label>
           <Link href="/" aria-current="page" aria-label="Homepage" tabIndex={1}>
             <div className="flex-0 inline-flex cursor-pointer text-lg font-extrabold leading-normal text-gray-700 transition-all duration-200 lg:text-3xl">
@@ -94,11 +101,11 @@ const Nav: React.FC<NavProps> = ({
               className="btn btn-ghost btn-sm rounded-btn"
               onClick={(e) => setShowCommandPalette(!isCommandPaletteOpen)}
             >
-              <SearchIcon className="h-5 w-5 lg:hidden" />
+              <MagnifyingGlassIcon className="h-5 w-5 lg:hidden" />
             </label>
-            <div className="dropdown dropdown-end lg:hidden">
+            <div className="dropdown-end dropdown lg:hidden">
               <label tabIndex={3} className="btn btn-ghost btn-sm rounded-btn">
-                <DotsVerticalIcon className="h-5 w-5" />
+                <EllipsisVerticalIcon className="h-5 w-5" />
               </label>
               <ul
                 tabIndex={0}

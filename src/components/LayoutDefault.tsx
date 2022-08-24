@@ -13,7 +13,7 @@ const LayoutDefault = ({ children }: Props) => {
   const [showCommandPalette, setShowCommandPalette] = useState<boolean>(false);
 
   return (
-    <div className="drawer">
+    <div className="drawer-mobile drawer">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         <CommandPalette
@@ -25,17 +25,16 @@ const LayoutDefault = ({ children }: Props) => {
           setShowCommandPalette={setShowCommandPalette}
         />
         <div className="mx-auto flex max-w-7xl px-4 sm:px-6 md:px-8">
-          <SideNav
-            isCommandPaletteOpen={showCommandPalette}
-            setShowCommandPalette={setShowCommandPalette}
-          />
           <Content>
             {children}
             <Footer />
           </Content>
         </div>
       </div>
-      <SideNavMobile />
+      <SideNav
+        isCommandPaletteOpen={showCommandPalette}
+        setShowCommandPalette={setShowCommandPalette}
+      />
     </div>
   );
 };

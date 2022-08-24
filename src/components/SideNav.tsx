@@ -108,88 +108,94 @@ const SideNav: React.FC<NavProps> = ({
   }, []);
 
   return (
-    <div className="fixed inset-0 top-[5rem] left-[max(0px,calc(50%-40rem))] right-auto z-20 hidden w-[19.5rem] overflow-y-auto px-8 pb-10 lg:block">
-      <nav id="nav" className="relative lg:text-sm lg:leading-6">
-        <div className="pointer-events-none sticky top-0 z-10 -ml-0.5">
-          <div className="h-8 bg-base-100"></div>
-          <div className="pointer-events-auto relative bg-base-100">
-            <button
-              type="button"
-              className="hidden w-full items-center rounded-md py-1.5 pl-2 pr-3 text-sm leading-6 text-base-content/40 shadow ring-1 ring-base-300 hover:ring-primary lg:flex"
-              onClick={(e) => setShowCommandPalette(!isCommandPaletteOpen)}
-            >
-              <svg
-                width="24"
-                height="24"
-                fill="none"
-                aria-hidden="true"
-                className="mr-3 flex-none"
+    <div className="drawer-side overflow-y-auto">
+      <label
+        htmlFor="my-drawer"
+        className="drawer-overlay backdrop-blur-sm"
+      ></label>
+      <div className="fixed inset-0 right-auto z-20 w-[19.5rem] overflow-y-auto border-r border-base-200 bg-base-100 px-8 pb-10 shadow-lg lg:top-[5rem] lg:left-[max(0px,calc(50%-40rem))] lg:block lg:border-0 lg:shadow-none">
+        <aside id="nav" className="relative pt-4 pb-2 lg:pt-0 lg:text-sm">
+          <div className="pointer-events-none sticky top-0 z-10 -ml-0.5 hidden lg:block">
+            <div className="h-8 bg-base-100"></div>
+            <div className="pointer-events-auto relative bg-base-100">
+              <button
+                type="button"
+                className="hidden w-full items-center rounded-md py-1.5 pl-2 pr-3 text-sm leading-6 text-base-content/40 shadow ring-1 ring-base-300 hover:ring-primary lg:flex"
+                onClick={(e) => setShowCommandPalette(!isCommandPaletteOpen)}
               >
-                <path
-                  d="m19 19-3.5-3.5"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></path>
-                <circle
-                  cx="11"
-                  cy="11"
-                  r="6"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></circle>
-              </svg>
-              Quick search...
-              <span className="kbd ml-auto flex-none text-xs font-semibold text-base-content/60">
-                {isMacOs ? "⌘K" : "CTRL + K"}
-              </span>
-            </button>
-          </div>
-          <div className="h-8 bg-gradient-to-b from-base-100"></div>
-        </div>
-        <div className="relative flex flex-col gap-y-1">
-          <div
-            className={`${showHover ? "opacity-100" : "opacity-0"} ${
-              noTransitionDuration ? "duration-[0ms]" : "duration-75"
-            } absolute top-0 left-0 -z-10 h-10 w-full rounded-lg bg-primary transition-all ease-in`}
-            style={{ transform: `translateY(${translateY}px)` }}
-          ></div>
-          {toc.map((section: toc, i: number) => (
-            <div key={i} className="mb-2">
-              <div className="rounded py-3 text-xs font-bold text-base-content/90">
-                {section.sectionTitle}
-              </div>
-              {section.articles.map((article: Article | null, j) => (
-                <Link
-                  href={`/articles/${article?.pathSegments.sectionPathName}/${article?.pathSegments.articlePathName}`}
-                  key={j}
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  aria-hidden="true"
+                  className="mr-3 flex-none"
                 >
-                  <a
-                    className={`${
-                      noTransitionDuration ? "duration-[0ms]" : "duration-200"
-                    } ${
-                      isActive(article!)
-                        ? "rounded-lg bg-primary font-bold text-primary-content hover:bg-primary-focus"
-                        : ""
-                    } block border-l border-base-content/10 py-2 text-base-content/60 transition-all duration-75 hover:rounded-tr-lg hover:rounded-br-lg hover:border-transparent hover:text-primary-content`}
-                    onMouseEnter={(
-                      e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-                    ) => handleHover(e)}
-                    onMouseLeave={(
-                      e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-                    ) => handleMouseLeave(e)}
-                  >
-                    <span className="ml-5 w-full">{article?.title}</span>
-                  </a>
-                </Link>
-              ))}
+                  <path
+                    d="m19 19-3.5-3.5"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  ></path>
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="6"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  ></circle>
+                </svg>
+                Quick search...
+                <span className="kbd ml-auto flex-none text-xs font-semibold text-base-content/60">
+                  {isMacOs ? "⌘K" : "CTRL + K"}
+                </span>
+              </button>
             </div>
-          ))}
-        </div>
-      </nav>
+            <div className="h-8 bg-gradient-to-b from-base-100"></div>
+          </div>
+          <div className="relative flex flex-col gap-y-1">
+            <div
+              className={`${showHover ? "opacity-100" : "opacity-0"} ${
+                noTransitionDuration ? "duration-[0ms]" : "duration-75"
+              } absolute top-0 left-0 -z-10 h-10 w-full rounded-lg bg-primary transition-all ease-in`}
+              style={{ transform: `translateY(${translateY}px)` }}
+            ></div>
+            {toc.map((section: toc, i: number) => (
+              <div key={i} className="mb-2">
+                <div className="rounded py-3 text-xs font-bold text-base-content/90">
+                  {section.sectionTitle}
+                </div>
+                {section.articles.map((article: Article | null, j) => (
+                  <Link
+                    href={`/articles/${article?.pathSegments.sectionPathName}/${article?.pathSegments.articlePathName}`}
+                    key={j}
+                  >
+                    <a
+                      className={`${
+                        noTransitionDuration ? "duration-[0ms]" : "duration-200"
+                      } ${
+                        isActive(article!)
+                          ? "rounded-lg bg-primary font-bold text-primary-content hover:bg-primary-focus"
+                          : ""
+                      } block border-l border-base-content/10 py-2 text-base-content/60 transition-all duration-75 hover:rounded-tr-lg hover:rounded-br-lg hover:border-transparent hover:text-primary-content`}
+                      onMouseEnter={(
+                        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+                      ) => handleHover(e)}
+                      onMouseLeave={(
+                        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+                      ) => handleMouseLeave(e)}
+                    >
+                      <span className="ml-5 w-full">{article?.title}</span>
+                    </a>
+                  </Link>
+                ))}
+              </div>
+            ))}
+          </div>
+        </aside>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,6 @@
 import { useState } from "react";
 import Nav from "./Nav";
-import SideNav from "./SideNav";
 import GalleryFilters from "./GalleryFilters";
-import SideNavMobile from "./SideNavMobile";
 import CommandPalette from "./CommandPalette";
 import Footer from "./Footer";
 
@@ -14,7 +12,7 @@ const LayoutGallery = ({ children }: Props) => {
   const [showCommandPalette, setShowCommandPalette] = useState<boolean>(false);
 
   return (
-    <div className="drawer">
+    <div className="drawer-mobile drawer">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         <CommandPalette
@@ -26,14 +24,13 @@ const LayoutGallery = ({ children }: Props) => {
           setShowCommandPalette={setShowCommandPalette}
         />
         <div className="mx-auto flex max-w-7xl px-4 sm:px-6 md:px-8">
-          <GalleryFilters />
           <Content>
             {children}
             <Footer />
           </Content>
         </div>
       </div>
-      <SideNavMobile />
+      <GalleryFilters />
     </div>
   );
 };

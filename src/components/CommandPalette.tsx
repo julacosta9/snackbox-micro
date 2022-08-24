@@ -1,7 +1,10 @@
 import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/router";
 import { Dialog, Combobox, Transition } from "@headlessui/react";
-import { SearchIcon, ChevronRightIcon } from "@heroicons/react/outline";
+import {
+  MagnifyingGlassIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
 import { allArticles } from "contentlayer/generated";
 import Fuse from "fuse.js";
 
@@ -47,7 +50,7 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
           setIsOpen(false);
           // TODO ADD CLOSE ACTIONS
         }}
-        className="transi fixed inset-0 overflow-y-auto p-4 lg:pt-[25vh]"
+        className="fixed inset-0 z-10 overflow-y-auto p-4 lg:pt-[25vh]"
       >
         <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm" />
         <Transition.Child
@@ -70,7 +73,7 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
             className="relative mx-auto w-full max-w-3xl divide-y divide-base-200 rounded-xl bg-base-100 shadow-2xl ring-1 ring-base-300/5"
           >
             <div className="flex items-center px-4 py-2">
-              <SearchIcon className="h-6 w-6 text-base-content/40" />
+              <MagnifyingGlassIcon className="h-6 w-6 text-base-content/40" />
               <Combobox.Input
                 className="mx-2 h-12 w-full rounded-lg border-0 bg-transparent px-2 text-base-content placeholder-base-content/40 focus:outline-none focus:ring-0"
                 placeholder="Search..."
