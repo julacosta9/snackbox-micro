@@ -1,258 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
+import type { CaseTypes, ButtonColors, ButtonShapes } from "../lib/types";
+import { cases, buttonColors, buttonShapes } from "../lib/constants";
 
-type Case = {
-  name: string;
-  value: string;
+type Props = {
+  selectedCaseType: CaseTypes;
+  handleCaseChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  allOneButtonColor: boolean;
+  handleOnebuttonColorChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  selectedButtonColors: ButtonColors;
+  handleButtonColorChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  selectedButtonShapes: ButtonShapes;
+  handleButtonShapeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-type CaseTypes = {
-  // added string type to be able to reference an object string/variable
-  [black: string]: boolean;
-  red: boolean;
-  blue: boolean;
-  white: boolean;
-  evo: boolean;
-  artworkClear: boolean;
-  artworkSmoke: boolean;
-  artworkRed: boolean;
-  artworkBlue: boolean;
-  artworkGreen: boolean;
-  artworkYellow: boolean;
-};
-
-type ButtonColors = {
-  [black: string]: boolean;
-  white: boolean;
-  red: boolean;
-  blueRoyal: boolean;
-  blueLight: boolean;
-  aqua: boolean;
-  purple: boolean;
-  pinkLight: boolean;
-  yellow: boolean;
-};
-
-type ButtonShapes = {
-  [both: string]: boolean;
-  concave: boolean;
-  convex: boolean;
-};
-
-type Button = {
-  name: string;
-  value: string;
-};
-
-type ButtonShape = {
-  name: string;
-  value: string;
-};
-
-const cases: Case[] = [
-  {
-    name: "Black",
-    value: "black",
-  },
-  {
-    name: "Red",
-    value: "red",
-  },
-  {
-    name: "Blue",
-    value: "blue",
-  },
-  {
-    name: "White",
-    value: "white",
-  },
-  {
-    name: "Evo",
-    value: "evo",
-  },
-  {
-    name: "Artwork / Clear",
-    value: "artworkClear",
-  },
-  {
-    name: "Artwork / Smoke",
-    value: "artworkSmoke",
-  },
-  {
-    name: "Artwork / Red",
-    value: "artworkRed",
-  },
-  {
-    name: "Artwork / Blue",
-    value: "artworkBlue",
-  },
-  {
-    name: "Artwork / Green",
-    value: "artworkGreen",
-  },
-  {
-    name: "Artwork / Yellow",
-    value: "artworkYellow",
-  },
-];
-
-const buttonColors: Button[] = [
-  {
-    name: "Black",
-    value: "black",
-  },
-  {
-    name: "White",
-    value: "white",
-  },
-  {
-    name: "Red",
-    value: "red",
-  },
-  {
-    name: "Light Blue",
-    value: "blueLight",
-  },
-  {
-    name: "Royal Blue",
-    value: "blueRoyal",
-  },
-  {
-    name: "Aqua",
-    value: "aqua",
-  },
-  {
-    name: "Purple",
-    value: "purple",
-  },
-  {
-    name: "Light Pink",
-    value: "pinkLight",
-  },
-  {
-    name: "Yellow",
-    value: "yellow",
-  },
-];
-
-const buttonShapes: ButtonShape[] = [
-  {
-    name: "Concave",
-    value: "concave",
-  },
-  {
-    name: "Convex",
-    value: "convex",
-  },
-  {
-    name: "Mixed",
-    value: "mixed",
-  },
-];
-
-const GalleryFilters: React.FC = () => {
-  const [allOneButtonColor, setAllOneButtonColor] = useState<boolean>(false);
-  const [selectedButtonStore, setSelectedButtonStore] =
-    useState<ButtonColors | null>();
-  const [selectedCaseType, setSelectedCaseType] = useState<CaseTypes>({
-    black: false,
-    red: false,
-    blue: false,
-    white: false,
-    evo: false,
-    artworkClear: false,
-    artworkSmoke: false,
-    artworkRed: false,
-    artworkBlue: false,
-    artworkGreen: false,
-    artworkYellow: false,
-  });
-  const [selectedButtonColors, setSelectedButtonColors] =
-    useState<ButtonColors>({
-      black: false,
-      white: false,
-      red: false,
-      blueRoyal: false,
-      blueLight: false,
-      aqua: false,
-      purple: false,
-      pinkLight: false,
-      yellow: false,
-    });
-
-  const [selectedButtonShapes, setSelectedButtonShapes] =
-    useState<ButtonShapes>({
-      both: false,
-      concave: false,
-      convex: false,
-    });
-
-  const handleCaseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedCaseType({
-      ...selectedCaseType,
-      [e.target.name]: e.target.checked,
-    });
-  };
-
-  const handleOnebuttonColorChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (allOneButtonColor && selectedButtonStore) {
-      setSelectedButtonColors(selectedButtonStore);
-    }
-
-    if (!allOneButtonColor) {
-      // save currently selected colors
-      setSelectedButtonStore(selectedButtonColors);
-      // set selected colors all false
-      setSelectedButtonColors({
-        black: false,
-        white: false,
-        red: false,
-        blueRoyal: false,
-        blueLight: false,
-        aqua: false,
-        purple: false,
-        pinkLight: false,
-        yellow: false,
-      });
-    }
-
-    setAllOneButtonColor(!allOneButtonColor);
-  };
-
-  const handleButtonColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!allOneButtonColor) {
-      setSelectedButtonColors({
-        ...selectedButtonColors,
-        [e.target.name]: e.target.checked,
-      });
-
-      return;
-    }
-
-    // create array of colors selected
-    const arr = Object.keys(selectedButtonColors).filter(
-      (color) => selectedButtonColors[color] === true
-    );
-
-    // if no colors are selected or the clicked color is no checked
-    if (arr.length === 0 || !e.target.checked) {
-      setSelectedButtonColors({
-        ...selectedButtonColors,
-        [e.target.name]: e.target.checked,
-      });
-    }
-
-    return;
-  };
-
-  const handleButtonShapeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedButtonShapes({
-      ...selectedButtonShapes,
-      [e.target.name]: e.target.checked,
-    });
-  };
-
+const GalleryFilters: React.FC<Props> = ({
+  allOneButtonColor,
+  selectedCaseType,
+  selectedButtonColors,
+  selectedButtonShapes,
+  handleOnebuttonColorChange,
+  handleCaseChange,
+  handleButtonColorChange,
+  handleButtonShapeChange,
+}) => {
   return (
     <div className="drawer-side overflow-y-auto">
       <label htmlFor="my-drawer" className="drawer-overlay backdrop-blur-sm" />
@@ -266,7 +36,7 @@ const GalleryFilters: React.FC = () => {
                   Case type
                 </h3>
                 <div className="py-2 pl-2">
-                  {cases.map((item: Case, i: number) => (
+                  {cases.map((item, i: number) => (
                     <label
                       className="flex cursor-pointer select-none items-center gap-x-3 rounded-lg py-1 px-2 hover:bg-accent/10"
                       key={i}
@@ -298,7 +68,7 @@ const GalleryFilters: React.FC = () => {
                   <div className="my-3 text-xs font-bold text-base-content/70">
                     {allOneButtonColor ? "Select 1:" : "Select multiple:"}
                   </div>
-                  {buttonColors.map((color: Button, i: number) => (
+                  {buttonColors.map((color, i: number) => (
                     <label
                       className="flex cursor-pointer select-none items-center gap-x-3 rounded-lg py-1 px-2 hover:bg-accent/10"
                       key={i}
@@ -326,7 +96,7 @@ const GalleryFilters: React.FC = () => {
                   Button shape
                 </h3>
                 <div className="py-2 pl-2">
-                  {buttonShapes.map((shape: ButtonShape, i: number) => (
+                  {buttonShapes.map((shape, i: number) => (
                     <label
                       className="flex cursor-pointer select-none items-center gap-x-3 rounded-lg py-1 px-2 hover:bg-accent/10"
                       key={i}

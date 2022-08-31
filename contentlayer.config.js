@@ -1,5 +1,5 @@
 import { defineDocumentType, makeSource } from "contentlayer/source-files";
-import { getLastEditedDate, urlFromFilePath } from "./src/utils";
+import { getLastEditedDate, urlFromFilePath } from "./src/lib/utils";
 
 export const Article = defineDocumentType(() => ({
   name: "Article",
