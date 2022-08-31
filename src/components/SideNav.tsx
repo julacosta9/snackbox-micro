@@ -157,9 +157,9 @@ const SideNav: React.FC<NavProps> = ({
           </div>
           <div className="relative flex flex-col gap-y-1">
             <div
-              className={`${showHover ? "opacity-100" : "opacity-0"} ${
-                noTransitionDuration ? "duration-[0ms]" : "duration-75"
-              } absolute top-0 left-0 -z-10 h-10 w-full rounded-lg bg-primary transition-all ease-in`}
+              className={`absolute top-0 left-0 -z-10 h-10 w-full rounded-lg bg-primary transition-all ease-in ${
+                showHover ? "opacity-100" : "opacity-0"
+              } ${noTransitionDuration ? "duration-[0ms]" : "duration-75"}`}
               style={{ transform: `translateY(${translateY}px)` }}
             ></div>
             {toc.map((section: toc, i: number) => (
@@ -173,13 +173,13 @@ const SideNav: React.FC<NavProps> = ({
                     key={j}
                   >
                     <a
-                      className={`${
+                      className={`block border-l border-base-content/10 py-2 text-base-content/60 transition-all duration-75 hover:rounded-tr-lg hover:rounded-br-lg hover:border-transparent hover:text-primary-content ${
                         noTransitionDuration ? "duration-[0ms]" : "duration-200"
                       } ${
                         isActive(article!)
                           ? "rounded-lg bg-primary font-bold text-primary-content hover:bg-primary-focus"
                           : ""
-                      } block border-l border-base-content/10 py-2 text-base-content/60 transition-all duration-75 hover:rounded-tr-lg hover:rounded-br-lg hover:border-transparent hover:text-primary-content`}
+                      }`}
                       onMouseEnter={(
                         e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
                       ) => handleHover(e)}

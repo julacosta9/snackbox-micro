@@ -104,9 +104,9 @@ const CommandPalette = ({ isOpen, setIsOpen }: Props) => {
                       >
                         <div className="flex flex-col truncate">
                           <span
-                            className={`${
+                            className={`truncate text-xs uppercase ${
                               active ? "" : "text-base-content/70"
-                            } truncate text-xs uppercase`}
+                            }`}
                           >
                             {result.pathSegments.sectionPathName.replace(
                               "-",
