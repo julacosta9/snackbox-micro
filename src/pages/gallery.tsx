@@ -1,13 +1,16 @@
-import type { ReactElement } from "react";
-import Head from "next/head";
-import Image from "next/image";
+import { ReactElement, useEffect } from "react";
 import { useState } from "react";
+import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { createClient } from "@supabase/supabase-js";
 import Nav from "../components/Nav";
 import GalleryFilters from "../components/GalleryFilters";
 import CommandPalette from "../components/CommandPalette";
 import Footer from "../components/Footer";
 import LayoutGallery from "src/components/LayoutGallery";
+import ImageLightBox from "../components/ImageLightBox";
 import type { CaseTypes, ButtonColors, ButtonShapes } from "../lib/types";
 
 export async function getStaticProps() {
@@ -19,7 +22,7 @@ export async function getStaticProps() {
   const { data } = await supabase
     .from("image-gallery")
     .select("*")
-    .order("created_at");
+    .order("created_at", { ascending: false });
 
   return {
     props: {
@@ -44,7 +47,7 @@ type Image = {
 
 const Gallery = ({ images }: { images: Image[] }) => {
   const [showCommandPalette, setShowCommandPalette] = useState<boolean>(false);
-
+  const [selectedImage, setSelectedImage] = useState<Image | null>(null);
   const [allOneButtonColor, setAllOneButtonColor] = useState<boolean>(false);
   const [selectedButtonStore, setSelectedButtonStore] =
     useState<ButtonColors | null>();
@@ -80,6 +83,18 @@ const Gallery = ({ images }: { images: Image[] }) => {
       concave: false,
       convex: false,
     });
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!router.query.img) return;
+
+    let found: Image | undefined = images.find(
+      (img) => img.id === parseInt(router.query.img as string)
+    );
+
+    if (found) setSelectedImage(found);
+  }, [router, images]);
 
   const handleCaseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedCaseType({
@@ -305,6 +320,10 @@ const Gallery = ({ images }: { images: Image[] }) => {
     }
   });
 
+  const handleImageSelect = (image: Image) => {
+    setSelectedImage(image);
+  };
+
   return (
     <>
       <Head>
@@ -319,6 +338,11 @@ const Gallery = ({ images }: { images: Image[] }) => {
             isOpen={showCommandPalette}
             setIsOpen={setShowCommandPalette}
           />
+          <ImageLightBox
+            image={selectedImage ? selectedImage : images[0]}
+            isOpen={!!selectedImage}
+            handleImageSelect={handleImageSelect}
+          />
           <Nav
             isCommandPaletteOpen={showCommandPalette}
             setShowCommandPalette={setShowCommandPalette}
@@ -326,9 +350,14 @@ const Gallery = ({ images }: { images: Image[] }) => {
           <div className="mx-auto flex max-w-7xl px-4 sm:px-6 md:px-8">
             <Content>
               <section className="py-8">
-                <div className="grid grid-cols-2 gap-y-6 gap-x-6 sm:grid-cols-3">
-                  {filteredImages.map((image: Image) => (
-                    <BlurImage image={image} key={image.id} />
+                <div className="grid grid-cols-2 gap-y-4 gap-x-4 sm:grid-cols-3">
+                  {filteredImages.map((image: Image, i: number) => (
+                    <BlurImage
+                      image={image}
+                      key={image.id}
+                      // onClick={(e: any) => handleImageSelect}
+                      handleImageSelect={handleImageSelect}
+                    />
                   ))}
                 </div>
               </section>
@@ -351,31 +380,40 @@ const Gallery = ({ images }: { images: Image[] }) => {
   );
 };
 
-function BlurImage({ image }: { image: Image }) {
+function BlurImage({
+  image,
+  handleImageSelect,
+}: {
+  image: Image;
+  handleImageSelect: any;
+}) {
   const [isLoading, setLoading] = useState(true);
 
   return (
-    <div
-      className={`aspect-square h-full cursor-pointer overflow-hidden rounded-lg ring-1 ring-base-200 hover:opacity-75 ${
-        isLoading ? "bg-base-300" : ""
-      } `}
-    >
-      <Image
-        alt={`Photo of Snackbox Micro by ${image.credit}`}
-        src={image.src}
-        objectFit="cover"
-        height="400px"
-        width="400px"
-        className={`duration-700 ease-in-out
-            ${
-              isLoading
-                ? "scale-110 blur-xl grayscale"
-                : "scale-100 blur-0 grayscale-0"
-            }
-          `}
-        onLoadingComplete={() => setLoading(false)}
-      />
-    </div>
+    <Link href={`/gallery?img=${image.id.toString()}`}>
+      <div
+        onClick={() => handleImageSelect(image)}
+        className={`relative aspect-square h-full cursor-pointer overflow-hidden rounded-lg hover:opacity-75 ${
+          isLoading ? "bg-base-300" : ""
+        } `}
+      >
+        <Image
+          alt={`Photo of Snackbox Micro by ${image.credit}`}
+          src={image.src}
+          objectFit="cover"
+          height="290px"
+          width="290px"
+          className={`duration-700 ease-in-out
+        ${
+          isLoading
+            ? "scale-110 blur-xl grayscale"
+            : "scale-100 blur-0 grayscale-0"
+        }
+        `}
+          onLoadingComplete={() => setLoading(false)}
+        />
+      </div>
+    </Link>
   );
 }
 

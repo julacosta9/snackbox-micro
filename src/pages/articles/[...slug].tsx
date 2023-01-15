@@ -50,16 +50,16 @@ const ArticlePage = ({ article }: { article: Article }) => {
       <Head>
         <title>{article.title}</title>
       </Head>
-      <article className="mx-auto max-w-2xl py-16">
+      <article className="prose mx-auto max-w-2xl py-16 prose-h1:text-2xl">
         <div className="mb-6 text-center">
           <Link href="/">
-            <a className="text-center text-sm font-bold uppercase text-blue-700">
+            <a className="text-center text-sm font-bold uppercase">
               {article.pathSegments.sectionPathName.replace("-", " ")}
             </a>
           </Link>
         </div>
         <div className="mb-6 text-center">
-          <h1 className="mb-1 text-3xl font-bold">{article.title}</h1>
+          <h1 className="mb-1">{article.title}</h1>
           <div className="text-sm text-slate-600">
             Last edited:
             <time dateTime={article.last_edited} className="ml-2">

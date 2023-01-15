@@ -3,13 +3,13 @@ import type { CaseTypes, ButtonColors, ButtonShapes } from "../lib/types";
 import { cases, buttonColors, buttonShapes } from "../lib/constants";
 
 type Props = {
-  selectedCaseType: CaseTypes;
-  handleCaseChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   allOneButtonColor: boolean;
-  handleOnebuttonColorChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  selectedCaseType: CaseTypes;
   selectedButtonColors: ButtonColors;
-  handleButtonColorChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   selectedButtonShapes: ButtonShapes;
+  handleOnebuttonColorChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCaseChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleButtonColorChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleButtonShapeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
