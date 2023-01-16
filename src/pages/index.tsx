@@ -6,16 +6,16 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import { ReactElement, useEffect, useState } from "react";
 import LayoutGallery from "src/components/LayoutGallery";
-import CommandPalette from "../components/CommandPalette";
+// import CommandPalette from "../components/CommandPalette";
 import Footer from "../components/Footer";
 import GalleryFilters from "../components/GalleryFilters";
 import ImageLightBox from "../components/ImageLightBox";
 import Nav from "../components/Nav";
 import type { ButtonColors, ButtonShapes, CaseTypes } from "../lib/types";
 
-// TODO: clean up every file, social sharing images, QA on mobile/safari/chrome, add umami event tracking
+// TODO: fix next/image sizes
 
-// DONE: make homepage gallery, favicon, implement analytics, finalize sumit micro form
+// DONE: make homepage gallery, favicon, implement analytics, finalize sumit micro form, social sharing images, add event tracking and blacklist my ip address, fix umami redirect, add images to gallery, prefetch=false
 
 export async function getStaticProps() {
   const supabase = createClient(
@@ -373,10 +373,10 @@ const Gallery = ({ images }: { images: Image[] }) => {
       <div className="drawer-mobile drawer">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
-          <CommandPalette
+          {/* <CommandPalette
             isOpen={showCommandPalette}
             setIsOpen={setShowCommandPalette}
-          />
+          /> */}
           <ImageLightBox
             image={selectedImage ? selectedImage : images[0]}
             isOpen={!!selectedImage}
@@ -428,7 +428,7 @@ function BlurImage({
   const [isLoading, setLoading] = useState(true);
 
   return (
-    <Link href={`/?photoId=${image.id.toString()}`} shallow>
+    <Link href={`/?photoId=${image.id.toString()}`} prefetch={false} shallow>
       <div
         onClick={() => handleImageSelect(image)}
         className={`relative aspect-square h-full cursor-pointer overflow-hidden rounded-lg hover:opacity-75 ${
