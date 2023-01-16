@@ -1,6 +1,6 @@
 import React from "react";
-import type { CaseTypes, ButtonColors, ButtonShapes } from "../lib/types";
-import { cases, buttonColors, buttonShapes } from "../lib/constants";
+import { buttonColors, buttonShapes, cases } from "../lib/constants";
+import type { ButtonColors, ButtonShapes, CaseTypes } from "../lib/types";
 
 type Props = {
   allOneButtonColor: boolean;
@@ -29,7 +29,15 @@ const GalleryFilters: React.FC<Props> = ({
       <div className="fixed inset-0 right-auto z-20 w-[19.5rem] overflow-y-auto border-r border-base-200 bg-base-100 px-8 pb-10 shadow-lg lg:top-[5rem] lg:left-[max(0px,calc(50%-40rem))] lg:block lg:border-0 lg:shadow-none">
         <aside id="nav" className="relative pt-4 pb-2 lg:pt-0 lg:text-sm">
           <div className="flex w-full flex-col">
-            <button className="btn btn-primary mb-5">Submit your micro</button>
+            <a
+              href="https://docs.google.com/forms/d/1kVwaEt7gfim2iIifBDWO01t3vwriuuMXmt73ooYsMJk"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <button className="btn btn-primary mb-5">
+                Submit your micro
+              </button>
+            </a>
             <form>
               <div className="form-control flex flex-col">
                 <h3 className="rounded-lg bg-base-300 p-3 text-sm font-bold text-base-content">
