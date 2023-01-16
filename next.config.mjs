@@ -1,4 +1,3 @@
-import { env } from "./src/env/server.mjs";
 import { withContentlayer } from "next-contentlayer";
 
 /**
@@ -16,5 +15,14 @@ function defineNextConfig(config) {
 export default withContentlayer({
   images: {
     domains: ["vjdhwnhtmmpuhqgpozhy.supabase.co", "bit.ly"],
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/stats",
+        destination:
+          "https://sbmicrohub-analytics-gcmjnqk9w-julianacosta.vercel.app",
+      },
+    ];
   },
 });
