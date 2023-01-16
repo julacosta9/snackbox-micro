@@ -1,14 +1,12 @@
-import { useState, useEffect } from "react";
+import {
+  AdjustmentsHorizontalIcon,
+  Bars3Icon,
+  MoonIcon,
+  SunIcon,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {
-  SunIcon,
-  MoonIcon,
-  Bars3Icon,
-  MagnifyingGlassIcon,
-  EllipsisVerticalIcon,
-  AdjustmentsHorizontalIcon,
-} from "@heroicons/react/24/outline";
+import { useEffect, useState } from "react";
 
 type NavProps = {
   isCommandPaletteOpen: boolean;
@@ -51,13 +49,13 @@ const Nav: React.FC<NavProps> = ({
   return (
     <>
       <div className="fixed z-10 w-full border-b-[1px] border-base-200 bg-base-100/70 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center py-2 px-1 sm:px-3 md:px-4 lg:justify-between lg:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between py-2 px-1 sm:px-3 md:px-4 lg:px-8">
           <label
             htmlFor="my-drawer"
             tabIndex={0}
-            className="btn btn-ghost btn-sm drawer-button rounded-btn mr-1 lg:hidden"
+            className="btn btn-ghost drawer-button rounded-btn btn-sm mr-1 lg:hidden"
           >
-            {router.route === "/gallery" ? (
+            {router.route === "/" ? (
               <AdjustmentsHorizontalIcon className="h-6 w-6" />
             ) : (
               <Bars3Icon className="h-6 w-6" />
@@ -72,7 +70,7 @@ const Nav: React.FC<NavProps> = ({
             </div>
           </Link>
           <div className="hidden gap-x-1 lg:flex">
-            <Link href={"/gallery"}>
+            {/* <Link href={"/"}>
               <a className="btn btn-ghost btn-sm bg-base-200 normal-case hover:bg-base-300">
                 Gallery
               </a>
@@ -82,10 +80,10 @@ const Nav: React.FC<NavProps> = ({
                 About
               </a>
             </Link>
-            <div className="divider divider-horizontal mx-0"></div>
+            <div className="divider divider-horizontal mx-0"></div> */}
             <label
               tabIndex={2}
-              className="btn btn-ghost btn-sm rounded-btn bg-base-200 hover:bg-base-300"
+              className="btn btn-ghost rounded-btn btn-sm bg-base-200 hover:bg-base-300"
               onClick={toggleDarkMode}
             >
               {isDarkMode ? (
@@ -95,15 +93,15 @@ const Nav: React.FC<NavProps> = ({
               )}
             </label>
           </div>
-          <div className="ml-auto flex items-center gap-x-1 lg:hidden">
-            <Link href={"/gallery"}>
+          <div className="flex items-center gap-x-1 lg:hidden">
+            {/* <Link href={"/"}>
               <a className="btn btn-ghost btn-sm rounded-btn normal-case">
                 Gallery
               </a>
-            </Link>
+            </Link> */}
             <label
               tabIndex={2}
-              className="btn btn-ghost btn-sm rounded-btn"
+              className="btn btn-ghost rounded-btn btn-sm"
               onClick={toggleDarkMode}
             >
               {isDarkMode ? (
@@ -112,13 +110,13 @@ const Nav: React.FC<NavProps> = ({
                 <MoonIcon className="h-5 w-5 text-indigo-600" />
               )}
             </label>
-            <label
+            {/* <label
               tabIndex={2}
               className="btn btn-ghost btn-sm rounded-btn"
               onClick={(e) => setShowCommandPalette(!isCommandPaletteOpen)}
             >
               <MagnifyingGlassIcon className="h-5 w-5 lg:hidden" />
-            </label>
+            </label> */}
             {/* <div className="dropdown dropdown-end lg:hidden">
               <label tabIndex={3} className="btn btn-ghost btn-sm rounded-btn">
                 <EllipsisVerticalIcon className="h-5 w-5" />
@@ -128,7 +126,7 @@ const Nav: React.FC<NavProps> = ({
                 className="dropdown-content menu rounded-box mt-4 w-52 border border-base-200 bg-base-100 p-2 shadow"
               >
                 <li>
-                  <Link href={"/gallery"}>
+                  <Link href={"/"}>
                     <a className="normal-case">Gallery</a>
                   </Link>
                 </li>
