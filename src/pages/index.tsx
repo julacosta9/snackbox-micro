@@ -334,7 +334,7 @@ const Gallery = ({ images }: { images: Image[] }) => {
       <Script
         strategy="afterInteractive"
         data-website-id="d65923d7-a7ec-4ce3-911f-d2ad8db5f915"
-        src="/stats/script.js"
+        src="https://sbmicrohub-analytics-gcmjnqk9w-julianacosta.vercel.app/umami.js"
         data-do-not-track="true"
       />
       <Head>
