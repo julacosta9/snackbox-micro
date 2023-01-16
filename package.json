@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "contentlayer build --clearCache && next build",
+    "build": "next build",
+    "build-with-contentlayer": "contentlayer build --clearCache && next build",
     "start": "next start",
     "lint": "next lint"
   },
