@@ -352,7 +352,10 @@ const Gallery = ({ images }: { images: Image[] }) => {
           name="twitter:description"
           content="View and filter images of Snackbox Micros to get ideas for your own build."
         />
-        <meta name="twitter:image" content="/socialgraph.png" />
+        <meta
+          name="twitter:image"
+          content="https://vjdhwnhtmmpuhqgpozhy.supabase.co/storage/v1/object/public/misc/opengraph.png?t=2023-01-16T09%3A53%3A24.523Z"
+        />
 
         {/* OpenGraph */}
         <meta property="og:type" content="webiste" />
@@ -362,7 +365,10 @@ const Gallery = ({ images }: { images: Image[] }) => {
           content="View and filter images of Snackbox Micros to get ideas for your own build"
         />
         <meta property="og:url" content="https://sbmicrohub.com/" />
-        <meta property="og:image" content="/socialgraph.png" />
+        <meta
+          property="og:image"
+          content="https://vjdhwnhtmmpuhqgpozhy.supabase.co/storage/v1/object/public/misc/opengraph.png?t=2023-01-16T09%3A53%3A24.523Z"
+        />
       </Head>
       <div className="drawer-mobile drawer">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
