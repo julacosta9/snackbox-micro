@@ -34,7 +34,7 @@ const GalleryFilters: React.FC<Props> = ({
               target="_blank"
               rel="noreferrer"
             >
-              <button className="btn btn-primary mb-5">
+              <button className="btn btn-primary mb-5 w-full">
                 Submit your micro
               </button>
             </a>
