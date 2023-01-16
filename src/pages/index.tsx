@@ -13,9 +13,9 @@ import ImageLightBox from "../components/ImageLightBox";
 import Nav from "../components/Nav";
 import type { ButtonColors, ButtonShapes, CaseTypes } from "../lib/types";
 
-// TODO: implement analytics, finalize sumit micro form, clean up every file, social sharing images, QA on mobile/safari/chrome
+// TODO: clean up every file, social sharing images, QA on mobile/safari/chrome, add umami event tracking
 
-// DONE: make homepage gallery, favicon
+// DONE: make homepage gallery, favicon, implement analytics, finalize sumit micro form
 
 export async function getStaticProps() {
   const supabase = createClient(
@@ -338,9 +338,17 @@ const Gallery = ({ images }: { images: Image[] }) => {
         data-do-not-track="true"
       />
       <Head>
-        <title>Snackbox Micro Gallery</title>
-        <meta name="description" content="Snackbox Micro Gallery" />
+        <title>Snackbox Micro Image Gallery</title>
+        <meta name="description" content="Snackbox Micro Image Gallery" />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="https://sbmicrohub.com/" />
+        <meta name="twitter:title" content="Snackbox Micro Image Gallery" />
+        <meta
+          name="twitter:description"
+          content="View and filter images of Snackbox Micros to get ideas for your own build."
+        />
+        <meta name="twitter:image" content="/socialgraph.png" />
       </Head>
       <div className="drawer-mobile drawer">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
