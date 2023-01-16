@@ -83,7 +83,7 @@ const Nav: React.FC<NavProps> = ({
             <div className="divider divider-horizontal mx-0"></div> */}
             <label
               tabIndex={2}
-              className="btn btn-ghost rounded-btn btn-sm bg-base-200 hover:bg-base-300"
+              className="umami--click--toggleDarkMode btn btn-ghost rounded-btn btn-sm bg-base-200 hover:bg-base-300"
               onClick={toggleDarkMode}
             >
               {isDarkMode ? (

@@ -33,6 +33,7 @@ const GalleryFilters: React.FC<Props> = ({
               href="https://docs.google.com/forms/d/1kVwaEt7gfim2iIifBDWO01t3vwriuuMXmt73ooYsMJk"
               target="_blank"
               rel="noreferrer"
+              className="umami--click--submit-your-micro"
             >
               <button className="btn btn-primary mb-5 w-full">
                 Submit your micro

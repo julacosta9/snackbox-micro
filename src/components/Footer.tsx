@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
             href="https://github.com/julacosta9"
             target="_blank"
             rel="noreferrer"
-            className="link link-hover text-accent"
+            className="umami--click--github link link-hover text-accent"
           >
             GitHub
           </a>{" "}
@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
             href="https://www.julianacosta.dev/"
             target="_blank"
             rel="noreferrer"
-            className="link link-hover text-accent"
+            className="umami--click--portfolio link link-hover text-accent"
           >
             portfolio
           </a>
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
           href="https://junkfoodarcades.com/"
           target="_blank"
           rel="noreferrer"
-          className="link link-hover"
+          className="umami--click--jfa-website link link-hover"
         >
           Website (buy a micro here!)
         </a>
@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
           href="https://discord.gg/egfTusUpPY"
           target="_blank"
           rel="noreferrer"
-          className="link link-hover"
+          className="umami--click--jfa-discord link link-hover"
         >
           Discord
         </a>
@@ -56,7 +56,7 @@ const Footer: React.FC = () => {
           href="http://youtube.com/channel/UCoIIhYXah87yEV_PrS4ASTw"
           target="_blank"
           rel="noreferrer"
-          className="link link-hover"
+          className="umami--click--jfa-youtube link link-hover"
         >
           YouTube
         </a>
@@ -64,7 +64,7 @@ const Footer: React.FC = () => {
           href="https://twitter.com/junkfoodarcades"
           target="_blank"
           rel="noreferrer"
-          className="link link-hover"
+          className="umami--click--jfa-twitter link link-hover"
         >
           Twitter
         </a>
@@ -72,7 +72,7 @@ const Footer: React.FC = () => {
           href="https://www.instagram.com/junkfoodarcades/?igshid=YWJhMjlhZTc%3D"
           target="_blank"
           rel="noreferrer"
-          className="link link-hover"
+          className="umami--click--jfa-instagram link link-hover"
         >
           Instagram
         </a>
