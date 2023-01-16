@@ -42,7 +42,7 @@ const Footer: React.FC = () => {
           rel="noreferrer"
           className="umami--click--jfa-website link link-hover"
         >
-          Website (buy a micro here!)
+          Website (buy a Micro here!)
         </a>
         <a
           href="https://discord.gg/egfTusUpPY"
