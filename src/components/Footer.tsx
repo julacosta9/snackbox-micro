@@ -11,12 +11,13 @@ const Footer: React.FC = () => {
           Micro, Junkfood Custom Arcades.
           <br />
           <br />
-          It's simply a site created by a fan. 🔮
+          It&apos;s simply a site created by a fan. 🔮
           <br />
           You can check out my{" "}
           <a
             href="https://github.com/julacosta9"
             target="_blank"
+            rel="noreferrer"
             className="link link-hover text-accent"
           >
             GitHub
@@ -25,6 +26,7 @@ const Footer: React.FC = () => {
           <a
             href="https://www.julianacosta.dev/"
             target="_blank"
+            rel="noreferrer"
             className="link link-hover text-accent"
           >
             portfolio
@@ -37,6 +39,7 @@ const Footer: React.FC = () => {
         <a
           href="https://junkfoodarcades.com/"
           target="_blank"
+          rel="noreferrer"
           className="link link-hover"
         >
           Website (buy a micro here!)
@@ -44,6 +47,7 @@ const Footer: React.FC = () => {
         <a
           href="https://discord.gg/egfTusUpPY"
           target="_blank"
+          rel="noreferrer"
           className="link link-hover"
         >
           Discord
@@ -51,6 +55,7 @@ const Footer: React.FC = () => {
         <a
           href="http://youtube.com/channel/UCoIIhYXah87yEV_PrS4ASTw"
           target="_blank"
+          rel="noreferrer"
           className="link link-hover"
         >
           YouTube
@@ -58,6 +63,7 @@ const Footer: React.FC = () => {
         <a
           href="https://twitter.com/junkfoodarcades"
           target="_blank"
+          rel="noreferrer"
           className="link link-hover"
         >
           Twitter
@@ -65,6 +71,7 @@ const Footer: React.FC = () => {
         <a
           href="https://www.instagram.com/junkfoodarcades/?igshid=YWJhMjlhZTc%3D"
           target="_blank"
+          rel="noreferrer"
           className="link link-hover"
         >
           Instagram
