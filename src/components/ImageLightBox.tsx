@@ -63,22 +63,24 @@ const ImageLightBox = ({
             leaveTo="opacity-0 scale-95"
           >
             <div className="relative flex w-fit transform flex-col overflow-hidden bg-black shadow-2xl will-change-auto md:rounded-lg">
-              <Image
-                alt={`Photo of Snackbox Micro by ${image.credit}`}
-                src={image.src}
-                objectFit="contain"
-                style={{ transform: "translate3d(0, 0, 0)" }}
-                height={720}
-                width={1280}
-                className={`touch-pinch-zoom duration-700 ease-in-out
+              {image && (
+                <Image
+                  alt={`Photo of Snackbox Micro by ${image.credit}`}
+                  src={image.src}
+                  objectFit="contain"
+                  style={{ transform: "translate3d(0, 0, 0)" }}
+                  height={720}
+                  width={1280}
+                  className={`touch-pinch-zoom duration-700 ease-in-out
               ${
                 isLoading
                   ? "scale-110 blur-xl grayscale"
                   : "scale-100 blur-0 grayscale-0"
               }
               `}
-                onLoadingComplete={() => setLoading(false)}
-              />
+                  onLoadingComplete={() => setLoading(false)}
+                />
+              )}
               <div className="absolute top-5 right-5 flex gap-2">
                 <div
                   className="tooltip tooltip-left tooltip-accent"
@@ -113,12 +115,14 @@ const ImageLightBox = ({
                   <ChevronRightIcon className="h-4 w-4 sm:h-6 sm:w-6" />
                 </button>
               </div>
-              <a href={image.creditUrl} target="_blank" rel="noreferrer">
-                <div className="btn btn-sm absolute bottom-5 right-5 flex normal-case sm:btn-md">
-                  <span>{image.credit}</span>
-                  <ArrowTopRightOnSquareIcon className="ml-2 mb-1 h-5 w-5" />
-                </div>
-              </a>
+              {image && (
+                <a href={image.creditUrl} target="_blank" rel="noreferrer">
+                  <div className="btn btn-sm absolute bottom-5 right-5 flex normal-case sm:btn-md">
+                    <span>{image.credit}</span>
+                    <ArrowTopRightOnSquareIcon className="ml-2 mb-1 h-5 w-5" />
+                  </div>
+                </a>
+              )}
             </div>
           </Transition.Child>
         </div>

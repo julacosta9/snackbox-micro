@@ -411,7 +411,7 @@ const Gallery = ({ images }: { images: Image[] }) => {
             setIsOpen={setShowCommandPalette}
           /> */}
           <ImageLightBox
-            image={selectedImage ? selectedImage : images[0]}
+            image={selectedImage}
             isOpen={!!selectedImage}
             handleImageSelect={handleImageSelect}
             handleNextImg={handleNextImg}
