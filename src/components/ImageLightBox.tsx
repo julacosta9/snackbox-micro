@@ -1,20 +1,42 @@
 import { Dialog, Transition } from "@headlessui/react";
 import {
   ArrowTopRightOnSquareIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   LinkIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 type Props = {
   image: any;
   isOpen: boolean;
   handleImageSelect: any;
+  handleNextImg: any;
+  handlePrevImg: any;
 };
 
-const ImageLightBox = ({ isOpen, handleImageSelect, image }: Props) => {
+const ImageLightBox = ({
+  isOpen,
+  handleImageSelect,
+  image,
+  handleNextImg,
+  handlePrevImg,
+}: Props) => {
   const [isLoading, setLoading] = useState(true);
+
+  const handleKeyDown = (e: any) => {
+    if (e.keyCode === 37) handlePrevImg();
+    if (e.keyCode === 39) handleNextImg();
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  });
 
   return (
     <Transition.Root
@@ -63,7 +85,7 @@ const ImageLightBox = ({ isOpen, handleImageSelect, image }: Props) => {
                   data-tip="copy link"
                 >
                   <button
-                    onClick={() => console.log("clicked")}
+                    onClick={() => navigator.clipboard.writeText(document.URL)}
                     className="btn btn-sm right-20 top-5 sm:btn-md"
                   >
                     <LinkIcon className="h-4 w-4 sm:h-6 sm:w-6" />
@@ -71,9 +93,24 @@ const ImageLightBox = ({ isOpen, handleImageSelect, image }: Props) => {
                 </div>
                 <button
                   onClick={() => handleImageSelect(null)}
-                  className="btn btn-primary btn-sm sm:btn-md"
+                  className="btn btn-sm sm:btn-md"
                 >
                   <XMarkIcon className="h-4 w-4 sm:h-6 sm:w-6" />
+                </button>
+              </div>
+              <div className="absolute top-[50%] flex w-full -translate-y-1/2 transform justify-between px-6">
+                <button
+                  onClick={handlePrevImg}
+                  onKeyDown={handleKeyDown}
+                  className="btn btn-primary btn-sm bg-opacity-25 sm:btn-md"
+                >
+                  <ChevronLeftIcon className="h-4 w-4 sm:h-6 sm:w-6" />
+                </button>
+                <button
+                  onClick={handleNextImg}
+                  className="btn btn-primary btn-sm bg-opacity-25 sm:btn-md"
+                >
+                  <ChevronRightIcon className="h-4 w-4 sm:h-6 sm:w-6" />
                 </button>
               </div>
               <a href={image.creditUrl} target="_blank" rel="noreferrer">

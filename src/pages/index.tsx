@@ -329,6 +329,39 @@ const Gallery = ({ images }: { images: Image[] }) => {
     if (!image) router.push("/");
   };
 
+  const handleNextImg = () => {
+    let currentImgIndex: number | undefined = filteredImages.findIndex(
+      (img) => img.id === parseInt(router.query.photoId as string)
+    );
+
+    let nextImg = currentImgIndex + 1;
+
+    if (!filteredImages[nextImg]) {
+      router.push(`/?photoId=${filteredImages[0]?.id}`);
+      setSelectedImage(filteredImages[0] as any);
+    } else {
+      router.push(`/?photoId=${filteredImages[nextImg]?.id}`);
+      setSelectedImage(filteredImages[nextImg] as any);
+    }
+  };
+
+  const handlePrevImg = () => {
+    let currentImgIndex: number | undefined = filteredImages.findIndex(
+      (img) => img.id === parseInt(router.query.photoId as string)
+    );
+
+    let prevImg = currentImgIndex - 1;
+    let lastIndex = filteredImages.length - 1;
+
+    if (!filteredImages[prevImg]) {
+      router.push(`/?photoId=${filteredImages[lastIndex]?.id}`);
+      setSelectedImage(filteredImages[lastIndex] as any);
+    } else {
+      router.push(`/?photoId=${filteredImages[prevImg]?.id}`);
+      setSelectedImage(filteredImages[prevImg] as any);
+    }
+  };
+
   return (
     <>
       <Script
@@ -381,6 +414,8 @@ const Gallery = ({ images }: { images: Image[] }) => {
             image={selectedImage ? selectedImage : images[0]}
             isOpen={!!selectedImage}
             handleImageSelect={handleImageSelect}
+            handleNextImg={handleNextImg}
+            handlePrevImg={handlePrevImg}
           />
           <Nav
             isCommandPaletteOpen={showCommandPalette}
