@@ -2,6 +2,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { buttonColors, buttonShapes, cases } from "../lib/constants";
 
+// TODO: set up state for all form fields, validate form before submit (react-hook-form seems good), upload file on submit then get back url then insert gallery row, add isActive column to table, implement loading state for form, hande submit success state for form, handle form error.
+
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,7 +21,7 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
           setIsOpen(false);
           // TODO ADD CLOSE ACTIONS
         }}
-        className="fixed inset-0 z-10 overflow-y-auto p-4 lg:pt-[25vh]"
+        className="fixed inset-0 z-10 overflow-y-auto p-4 md:pt-[25vh]"
       >
         <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm" />
         <Transition.Child
@@ -30,12 +32,12 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <div className="relative mx-auto w-full max-w-3xl divide-y divide-base-200 rounded-lg bg-base-100 shadow-2xl ring-1 ring-base-300/5">
+          <div className="relative mx-auto w-full max-w-3xl divide-base-200 rounded-lg bg-base-100 shadow-2xl">
             <div className="flex items-center px-4 py-4">
               <div className="form-control w-full gap-y-3">
                 <div>
                   <label className="label">
-                    <span className="label-text text-lg font-bold">
+                    <span className="label-text font-bold md:text-lg">
                       Upload image
                     </span>
                   </label>
@@ -45,10 +47,10 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
                   />
                 </div>
 
-                <div className="flex gap-x-2">
-                  <div className="w-1/2">
+                <div className="flex flex-col gap-x-2 md:flex-row">
+                  <div className="w-full md:w-1/2">
                     <label className="label">
-                      <span className="label-text text-lg font-bold">
+                      <span className="label-text font-bold md:text-lg">
                         Case type
                       </span>
                     </label>
@@ -59,9 +61,9 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
                     </select>
                   </div>
 
-                  <div className="w-1/2">
+                  <div className="w-full md:w-1/2">
                     <label className="label">
-                      <span className="label-text text-lg font-bold">
+                      <span className="label-text font-bold md:text-lg">
                         Button shape
                       </span>
                     </label>
@@ -75,20 +77,20 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
 
                 <div>
                   <label className="label">
-                    <span className="label-text text-lg font-bold">
+                    <span className="label-text font-bold md:text-lg">
                       Buttons color(s)
                     </span>
                   </label>
                   <div className="flex flex-wrap">
                     {buttonColors.map((color) => (
-                      <div className="w-1/3" key={color.value}>
+                      <div className="w-1/2 sm:w-1/3" key={color.value}>
                         <label className="flex cursor-pointer select-none items-center gap-x-3 rounded-lg py-2 px-2 hover:bg-accent/10">
                           <input
                             type="checkbox"
                             name={color.value}
                             // checked={}
                             // onChange={}
-                            className="checkbox checkbox-accent"
+                            className="checkbox checkbox-accent checkbox-sm md:checkbox-md"
                           />
                           <span className="label-text">{color.name}</span>
                         </label>
@@ -97,10 +99,10 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
                   </div>
                 </div>
 
-                <div className="flex gap-x-2">
-                  <div className="w-1/2">
+                <div className="flex flex-col gap-x-2 md:flex-row">
+                  <div className="w-full md:w-1/2">
                     <label className="label">
-                      <span className="label-text text-lg font-bold">
+                      <span className="label-text font-bold md:text-lg">
                         Image credit
                       </span>
                     </label>
@@ -111,9 +113,9 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
                     />
                   </div>
 
-                  <div className="w-1/2">
+                  <div className="w-full md:w-1/2">
                     <label className="label">
-                      <span className="label-text text-lg font-bold">
+                      <span className="label-text font-bold md:text-lg">
                         Image credit URL (not required)
                       </span>
                     </label>
@@ -125,7 +127,7 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
                   </div>
                 </div>
 
-                <button className="btn btn-primary mt-4 h-14 w-full text-lg">
+                <button className="btn btn-primary mt-4 w-full md:h-14 md:md:text-lg">
                   Submit your micro
                 </button>
               </div>

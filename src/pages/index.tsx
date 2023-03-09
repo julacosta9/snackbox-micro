@@ -14,10 +14,6 @@ import ImageLightBox from "../components/ImageLightBox";
 import Nav from "../components/Nav";
 import type { ButtonColors, ButtonShapes, CaseTypes } from "../lib/types";
 
-// TODO: fix next/image sizes
-
-// DONE: make homepage gallery, favicon, implement analytics, finalize sumit micro form, social sharing images, add event tracking and blacklist my ip address, fix umami redirect, add images to gallery, prefetch=false
-
 export async function getStaticProps() {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || "",
@@ -405,7 +401,7 @@ const Gallery = ({ images }: { images: Image[] }) => {
           content="https://vjdhwnhtmmpuhqgpozhy.supabase.co/storage/v1/object/public/misc/opengraph.png?t=2023-01-16T09%3A53%3A24.523Z"
         />
       </Head>
-      <div className="drawer-mobile drawer">
+      <div className="drawer drawer-mobile">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* <CommandPalette
