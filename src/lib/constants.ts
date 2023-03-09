@@ -1,4 +1,4 @@
-import type { Case, Button, ButtonShape } from "../lib/types";
+import type { Button, ButtonShape, Case } from "../lib/types";
 
 export const cases: Case[] = [
   {
@@ -96,7 +96,7 @@ export const buttonShapes: ButtonShape[] = [
     value: "convex",
   },
   {
-    name: "Mixed",
+    name: "Mix of both",
     value: "mixed",
   },
 ];

@@ -7,6 +7,7 @@ import Script from "next/script";
 import { ReactElement, useEffect, useState } from "react";
 import LayoutGallery from "src/components/LayoutGallery";
 // import CommandPalette from "../components/CommandPalette";
+import SubmitMicroForm from "src/components/SubmitMicroForm";
 import Footer from "../components/Footer";
 import GalleryFilters from "../components/GalleryFilters";
 import ImageLightBox from "../components/ImageLightBox";
@@ -51,6 +52,7 @@ type Image = {
 
 const Gallery = ({ images }: { images: Image[] }) => {
   const [showCommandPalette, setShowCommandPalette] = useState<boolean>(false);
+  const [showForm, setShowForm] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
   const [allOneButtonColor, setAllOneButtonColor] = useState<boolean>(false);
   const [selectedButtonStore, setSelectedButtonStore] =
@@ -410,6 +412,7 @@ const Gallery = ({ images }: { images: Image[] }) => {
             isOpen={showCommandPalette}
             setIsOpen={setShowCommandPalette}
           /> */}
+          <SubmitMicroForm isOpen={showForm} setIsOpen={setShowForm} />
           <ImageLightBox
             image={selectedImage}
             isOpen={!!selectedImage}
@@ -439,6 +442,8 @@ const Gallery = ({ images }: { images: Image[] }) => {
           </div>
         </div>
         <GalleryFilters
+          isSubmitFormOpen={showForm}
+          setShowSubmitForm={setShowForm}
           allOneButtonColor={allOneButtonColor}
           selectedCaseType={selectedCaseType}
           selectedButtonColors={selectedButtonColors}

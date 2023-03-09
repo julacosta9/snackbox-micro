@@ -14,7 +14,7 @@
     "@heroicons/react": "^2.0.1",
     "@supabase/supabase-js": "^1.35.6",
     "contentlayer": "^0.2.6",
-    "daisyui": "^2.20.0",
+    "daisyui": "^2.51.3",
     "date-fns": "^2.29.1",
     "fuse.js": "^6.6.2",
     "next": "12.2.3",
