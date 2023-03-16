@@ -1,10 +1,10 @@
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog } from "@headlessui/react";
 import {
   ExclaimationTriangleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { buttonColors, buttonShapes, cases } from "../lib/constants";
 
@@ -26,13 +26,12 @@ type FormStates = "unsubmitted" | "pending" | "complete";
 
 const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
   const [formStatus, setFormStatus] = useState<FormStates>("unsubmitted");
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>(
-    "https://vjdhwnhtmmpuhqgpozhy.supabase.co/storage/v1/object/sign/gallery/@noe_perez_4.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJnYWxsZXJ5L0Bub2VfcGVyZXpfNC5qcGciLCJpYXQiOjE2NzYzMzY5NzksImV4cCI6MTk5MTY5Njk3OX0.CXeExwSfWqH4dsDbSJznDtZiw26gnCsrNNWl9Wsq4Lw"
-  );
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
   const [isUploadedImageLoading, setUploadedImageLoading] =
     useState<boolean>(true);
   const [showFormErrorMessage, setShowFormErrorMessage] =
     useState<boolean>(false);
+  const [selectedFileUrl, setSelectedFileUrl] = useState<string>("");
 
   const {
     register,
@@ -86,6 +85,7 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
   const handleClose = () => {
     setIsOpen(false);
     setFormStatus("unsubmitted");
+    setSelectedFileUrl("");
     reset(
       {
         case: "black",
@@ -102,36 +102,35 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
   const atLeastOne = () => (getValues("buttonColors").length ? true : false);
 
   return (
-    <Transition.Root show={isOpen} as={Fragment} afterLeave={() => {}}>
-      <Dialog
-        onClose={handleClose}
-        className="fixed inset-0 z-10 overflow-y-auto p-4 md:pt-[25vh]"
+    <Dialog
+      open={isOpen}
+      onClose={handleClose}
+      className="fixed inset-0 z-10 overflow-y-auto p-4 md:pt-[25vh]"
+    >
+      <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm" />
+
+      <div
+        className={`relative mx-auto w-full divide-base-200 rounded-lg bg-base-100 px-4 pb-4 shadow-2xl ${
+          formStatus === "complete" ? "max-w-3xl" : "max-w-5xl"
+        }`}
       >
-        <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm" />
-        <Transition.Child
-          enter="duration-100 ease-out"
-          enterFrom="opacity-0 scale-95"
-          enterTo="opacity-100 scale-100"
-          leave="duration-75 ease-in"
-          leaveFrom="opacity-100 scale-100"
-          leaveTo="opacity-0 scale-95"
+        <div
+          className={`flex w-full items-center justify-end ${
+            showFormErrorMessage ? "pt-4" : "pt-2"
+          }`}
         >
-          <div className="relative mx-auto w-full max-w-3xl divide-base-200 rounded-lg bg-base-100 px-4 pb-4 shadow-2xl">
-            <div
-              className={`flex w-full items-center justify-end ${
-                showFormErrorMessage ? "pt-4" : "pt-2"
-              }`}
-            >
-              {showFormErrorMessage && (
-                <div className="mr-auto flex items-center gap-2 rounded bg-warning px-3 py-2 text-sm font-bold text-warning-content">
-                  <ExclaimationTriangleIcon className="h-6 w-6" />
-                  There was an error submitting. Please try again.
-                </div>
-              )}
-              <button onClick={handleClose} className="btn btn-ghost btn-sm">
-                <XMarkIcon className="h-4 w-4" />
-              </button>
+          {showFormErrorMessage && (
+            <div className="mr-auto flex items-center gap-2 rounded bg-warning px-3 py-2 text-sm font-bold text-warning-content">
+              <ExclaimationTriangleIcon className="h-6 w-6" />
+              There was an error submitting. Please try again.
             </div>
+          )}
+          <button onClick={handleClose} className="btn btn-ghost btn-sm">
+            <XMarkIcon className="h-4 w-4" />
+          </button>
+        </div>
+        <div className="flex flex-col gap-8 md:flex-row">
+          <div className="w-full">
             {formStatus !== "complete" && (
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex items-center ">
@@ -155,6 +154,10 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
                         className="file-input file-input-bordered w-full"
                         {...register("image", {
                           required: true,
+                          onChange: (e) =>
+                            setSelectedFileUrl(
+                              URL.createObjectURL(e.target.files[0])
+                            ),
                         })}
                       />
                     </div>
@@ -319,9 +322,22 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
               </div>
             )}
           </div>
-        </Transition.Child>
-      </Dialog>
-    </Transition.Root>
+          {selectedFileUrl && formStatus !== "complete" ? (
+            <div className="mt-4 hidden w-full md:block">
+              <div className="relative flex h-full items-center justify-center rounded-lg bg-base-300">
+                <Image
+                  alt="Your selected file to upload"
+                  src={selectedFileUrl}
+                  layout="fill"
+                  objectFit="contain"
+                  className="object-fill"
+                />
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </Dialog>
   );
 };
 
