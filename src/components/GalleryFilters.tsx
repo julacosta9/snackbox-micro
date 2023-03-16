@@ -34,7 +34,7 @@ const GalleryFilters: React.FC<Props> = ({
         <aside id="nav" className="relative pt-4 pb-2 lg:pt-0 lg:text-sm">
           <div className="flex w-full flex-col">
             <button
-              className="btn btn-primary mb-5 w-full"
+              className="btn btn-primary mb-5 w-full text-lg font-bold normal-case"
               onClick={() => setShowSubmitForm(!isSubmitFormOpen)}
             >
               Submit your micro
