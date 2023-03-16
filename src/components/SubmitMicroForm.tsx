@@ -90,7 +90,7 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
       {
         case: "black",
         buttonShape: "concave",
-        buttonColors: [""],
+        buttonColors: [],
         credit: null,
         creditUrl: "",
         image: null,
