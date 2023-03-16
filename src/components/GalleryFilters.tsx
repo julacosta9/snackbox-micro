@@ -11,6 +11,8 @@ type Props = {
   handleCaseChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleButtonColorChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleButtonShapeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isSubmitFormOpen: boolean;
+  setShowSubmitForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const GalleryFilters: React.FC<Props> = ({
@@ -22,6 +24,8 @@ const GalleryFilters: React.FC<Props> = ({
   handleCaseChange,
   handleButtonColorChange,
   handleButtonShapeChange,
+  isSubmitFormOpen,
+  setShowSubmitForm,
 }) => {
   return (
     <div className="drawer-side overflow-y-auto">
@@ -29,16 +33,12 @@ const GalleryFilters: React.FC<Props> = ({
       <div className="fixed inset-0 right-auto z-20 w-[19.5rem] overflow-y-auto border-r border-base-200 bg-base-100 px-8 pb-10 shadow-lg lg:top-[5rem] lg:left-[max(0px,calc(50%-40rem))] lg:block lg:border-0 lg:shadow-none">
         <aside id="nav" className="relative pt-4 pb-2 lg:pt-0 lg:text-sm">
           <div className="flex w-full flex-col">
-            <a
-              href="https://docs.google.com/forms/d/1kVwaEt7gfim2iIifBDWO01t3vwriuuMXmt73ooYsMJk"
-              target="_blank"
-              rel="noreferrer"
-              className="umami--click--submit-your-micro"
+            <button
+              className="btn btn-primary mb-5 w-full text-lg font-bold normal-case"
+              onClick={() => setShowSubmitForm(!isSubmitFormOpen)}
             >
-              <button className="btn btn-primary mb-5 w-full">
-                Submit your micro
-              </button>
-            </a>
+              Submit your micro
+            </button>
             <form>
               <div className="form-control flex flex-col">
                 <h3 className="rounded-lg bg-base-300 p-3 text-sm font-bold text-base-content">

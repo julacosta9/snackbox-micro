@@ -27,6 +27,8 @@ const ImageLightBox = ({
   const [isLoading, setLoading] = useState(true);
 
   const handleKeyDown = (e: any) => {
+    if (!isOpen) return;
+
     if (e.keyCode === 37) handlePrevImg();
     if (e.keyCode === 39) handleNextImg();
   };
@@ -84,7 +86,7 @@ const ImageLightBox = ({
               <div className="absolute top-5 right-5 flex gap-2">
                 <div
                   className="tooltip tooltip-left tooltip-accent"
-                  data-tip="copy link"
+                  data-tip="Copy link"
                 >
                   <button
                     onClick={() => navigator.clipboard.writeText(document.URL)}

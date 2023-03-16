@@ -7,15 +7,12 @@ import Script from "next/script";
 import { ReactElement, useEffect, useState } from "react";
 import LayoutGallery from "src/components/LayoutGallery";
 // import CommandPalette from "../components/CommandPalette";
+import SubmitMicroForm from "src/components/SubmitMicroForm";
 import Footer from "../components/Footer";
 import GalleryFilters from "../components/GalleryFilters";
 import ImageLightBox from "../components/ImageLightBox";
 import Nav from "../components/Nav";
 import type { ButtonColors, ButtonShapes, CaseTypes } from "../lib/types";
-
-// TODO: fix next/image sizes
-
-// DONE: make homepage gallery, favicon, implement analytics, finalize sumit micro form, social sharing images, add event tracking and blacklist my ip address, fix umami redirect, add images to gallery, prefetch=false
 
 export async function getStaticProps() {
   const supabase = createClient(
@@ -26,6 +23,7 @@ export async function getStaticProps() {
   const { data } = await supabase
     .from("image-gallery")
     .select("*")
+    .eq("isActive", true)
     .order("created_at", { ascending: false });
 
   return {
@@ -51,6 +49,7 @@ type Image = {
 
 const Gallery = ({ images }: { images: Image[] }) => {
   const [showCommandPalette, setShowCommandPalette] = useState<boolean>(false);
+  const [showForm, setShowForm] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
   const [allOneButtonColor, setAllOneButtonColor] = useState<boolean>(false);
   const [selectedButtonStore, setSelectedButtonStore] =
@@ -374,7 +373,7 @@ const Gallery = ({ images }: { images: Image[] }) => {
         <title>Snackbox Micro Image Gallery</title>
         <meta
           name="description"
-          content="View and filter images of Snackbox Micros to get ideas for your own build."
+          content="View images of custom Snackbox Micros to get ideas for your own build and submit your own to the gallery."
         />
         <link rel="icon" href="/favicon.ico" />
         {/* twitter */}
@@ -383,7 +382,7 @@ const Gallery = ({ images }: { images: Image[] }) => {
         <meta name="twitter:title" content="Snackbox Micro Image Gallery" />
         <meta
           name="twitter:description"
-          content="View and filter images of Snackbox Micros to get ideas for your own build."
+          content="View images of custom Snackbox Micros to get ideas for your own build and submit your own to the gallery."
         />
         <meta
           name="twitter:image"
@@ -395,7 +394,7 @@ const Gallery = ({ images }: { images: Image[] }) => {
         <meta property="og:title" content="Snackbox Micro Image Gallery" />
         <meta
           property="og:description"
-          content="View and filter images of Snackbox Micros to get ideas for your own build"
+          content="View images of custom Snackbox Micros to get ideas for your own build and submit your own to the gallery."
         />
         <meta property="og:url" content="https://sbmicrohub.com/" />
         <meta
@@ -403,13 +402,14 @@ const Gallery = ({ images }: { images: Image[] }) => {
           content="https://vjdhwnhtmmpuhqgpozhy.supabase.co/storage/v1/object/public/misc/opengraph.png?t=2023-01-16T09%3A53%3A24.523Z"
         />
       </Head>
-      <div className="drawer-mobile drawer">
+      <div className="drawer drawer-mobile">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* <CommandPalette
             isOpen={showCommandPalette}
             setIsOpen={setShowCommandPalette}
           /> */}
+          <SubmitMicroForm isOpen={showForm} setIsOpen={setShowForm} />
           <ImageLightBox
             image={selectedImage}
             isOpen={!!selectedImage}
@@ -439,6 +439,8 @@ const Gallery = ({ images }: { images: Image[] }) => {
           </div>
         </div>
         <GalleryFilters
+          isSubmitFormOpen={showForm}
+          setShowSubmitForm={setShowForm}
           allOneButtonColor={allOneButtonColor}
           selectedCaseType={selectedCaseType}
           selectedButtonColors={selectedButtonColors}
