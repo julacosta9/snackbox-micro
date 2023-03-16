@@ -1,26 +1,110 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import {
+  ExclaimationTriangleIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import Image from "next/image";
+import { Fragment, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { buttonColors, buttonShapes, cases } from "../lib/constants";
-
-// TODO: set up state for all form fields, validate form before submit (react-hook-form seems good), upload file on submit then get back url then insert gallery row, add isActive column to table, implement loading state for form, hande submit success state for form, handle form error.
 
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
-  const [selectedPerson, setSelectedPerson] = useState(null);
+type Inputs = {
+  case: string;
+  buttonShape: string;
+  buttonColors: string[];
+  credit: string | null;
+  creditUrl: string;
+  image: any;
+};
 
-  useEffect(() => {});
+type FormStates = "unsubmitted" | "pending" | "complete";
+
+const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
+  const [formStatus, setFormStatus] = useState<FormStates>("unsubmitted");
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>(
+    "https://vjdhwnhtmmpuhqgpozhy.supabase.co/storage/v1/object/sign/gallery/@noe_perez_4.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJnYWxsZXJ5L0Bub2VfcGVyZXpfNC5qcGciLCJpYXQiOjE2NzYzMzY5NzksImV4cCI6MTk5MTY5Njk3OX0.CXeExwSfWqH4dsDbSJznDtZiw26gnCsrNNWl9Wsq4Lw"
+  );
+  const [isUploadedImageLoading, setUploadedImageLoading] =
+    useState<boolean>(true);
+  const [showFormErrorMessage, setShowFormErrorMessage] =
+    useState<boolean>(false);
+
+  const {
+    register,
+    getValues,
+    getFieldState,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  useForm({
+    defaultValues: {
+      case: "black",
+      buttonShapes: "concave",
+      buttonColors: [],
+      credit: null,
+      creditUrl: "",
+      image: null,
+    },
+  });
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setFormStatus("pending");
+    setShowFormErrorMessage(false);
+
+    const formData = new FormData();
+    formData.append("buttonShape", data.buttonShape);
+    formData.append("case", data.case);
+    formData.append("buttonColors", JSON.stringify(data.buttonColors));
+    formData.append("credit", data.credit as string);
+    formData.append("creditUrl", data.creditUrl);
+    formData.append("image", data.image[0]);
+
+    const response = await fetch("/api/submit", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (response.status === 500) {
+      setShowFormErrorMessage(true);
+      setFormStatus("unsubmitted");
+      return;
+    }
+
+    const parsedRes = await response.json();
+    console.log(parsedRes);
+    setUploadedImageUrl(parsedRes?.rowData[0]?.src);
+    setFormStatus("complete");
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setFormStatus("unsubmitted");
+    reset(
+      {
+        case: "black",
+        buttonShape: "concave",
+        buttonColors: [""],
+        credit: null,
+        creditUrl: "",
+        image: null,
+      },
+      { keepErrors: false }
+    );
+  };
+
+  const atLeastOne = () => (getValues("buttonColors").length ? true : false);
 
   return (
     <Transition.Root show={isOpen} as={Fragment} afterLeave={() => {}}>
       <Dialog
-        onClose={() => {
-          setIsOpen(false);
-          // TODO ADD CLOSE ACTIONS
-        }}
+        onClose={handleClose}
         className="fixed inset-0 z-10 overflow-y-auto p-4 md:pt-[25vh]"
       >
         <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm" />
@@ -32,110 +116,240 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <div className="relative mx-auto w-full max-w-3xl divide-base-200 rounded-lg bg-base-100 shadow-2xl">
-            <div className="flex items-center px-4 py-4">
-              <div className="form-control w-full gap-y-3">
-                <div>
-                  <label className="label">
-                    <span className="label-text font-bold md:text-lg">
-                      Upload image
-                    </span>
-                  </label>
-                  <input
-                    type="file"
-                    className="file-input file-input-bordered w-full"
-                  />
+          <div className="relative mx-auto w-full max-w-3xl divide-base-200 rounded-lg bg-base-100 px-4 pb-4 shadow-2xl">
+            <div
+              className={`flex w-full items-center justify-end ${
+                showFormErrorMessage ? "pt-4" : "pt-2"
+              }`}
+            >
+              {showFormErrorMessage && (
+                <div className="mr-auto flex items-center gap-2 rounded bg-warning px-3 py-2 text-sm font-bold text-warning-content">
+                  <ExclaimationTriangleIcon className="h-6 w-6" />
+                  There was an error submitting. Please try again.
                 </div>
-
-                <div className="flex flex-col gap-x-2 md:flex-row">
-                  <div className="w-full md:w-1/2">
-                    <label className="label">
-                      <span className="label-text font-bold md:text-lg">
-                        Case type
-                      </span>
-                    </label>
-                    <select className="select select-bordered w-full">
-                      {cases.map((item) => (
-                        <option key={item.value}>{item.name}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="w-full md:w-1/2">
-                    <label className="label">
-                      <span className="label-text font-bold md:text-lg">
-                        Button shape
-                      </span>
-                    </label>
-                    <select className="select select-bordered w-full">
-                      {buttonShapes.map((shape) => (
-                        <option key={shape.value}>{shape.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="label">
-                    <span className="label-text font-bold md:text-lg">
-                      Buttons color(s)
-                    </span>
-                  </label>
-                  <div className="flex flex-wrap">
-                    {buttonColors.map((color) => (
-                      <div className="w-1/2 sm:w-1/3" key={color.value}>
-                        <label className="flex cursor-pointer select-none items-center gap-x-3 rounded-lg py-2 px-2 hover:bg-accent/10">
-                          <input
-                            type="checkbox"
-                            name={color.value}
-                            // checked={}
-                            // onChange={}
-                            className="checkbox checkbox-accent checkbox-sm md:checkbox-md"
-                          />
-                          <span className="label-text">{color.name}</span>
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-x-2 md:flex-row">
-                  <div className="w-full md:w-1/2">
-                    <label className="label">
-                      <span className="label-text font-bold md:text-lg">
-                        Image credit
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="@twitterName or DiscordName#1234"
-                      className="input input-bordered w-full placeholder:text-slate-400/50"
-                    />
-                  </div>
-
-                  <div className="w-full md:w-1/2">
-                    <label className="label">
-                      <span className="label-text font-bold md:text-lg">
-                        Image credit URL (not required)
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="twitter.com/junkfoodarcades"
-                      className="input input-bordered w-full placeholder:text-slate-400/50"
-                    />
-                  </div>
-                </div>
-
-                <button className="btn btn-primary mt-4 w-full md:h-14 md:md:text-lg">
-                  Submit your micro
-                </button>
-              </div>
+              )}
+              <button onClick={handleClose} className="btn btn-ghost btn-sm">
+                <XMarkIcon className="h-4 w-4" />
+              </button>
             </div>
+            {formStatus !== "complete" && (
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="flex items-center ">
+                  <div className="form-control w-full gap-y-3">
+                    {/* Upload Image */}
+                    <div>
+                      <label className="label">
+                        <span className="label-text font-bold md:text-lg">
+                          Upload image
+                          {errors.image && (
+                            <span className="ml-2 rounded bg-error p-1 text-sm text-error-content">
+                              Choose a file
+                            </span>
+                          )}
+                        </span>
+                      </label>
+                      <input
+                        type="file"
+                        accept=".jpg, .jpeg, .png"
+                        disabled={formStatus !== "unsubmitted"}
+                        className="file-input file-input-bordered w-full"
+                        {...register("image", {
+                          required: true,
+                        })}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-x-2 md:flex-row">
+                      {/* Case type */}
+                      <div className="w-full md:w-1/2">
+                        <label className="label">
+                          <span className="label-text font-bold md:text-lg">
+                            Case type
+                          </span>
+                        </label>
+                        <select
+                          disabled={formStatus !== "unsubmitted"}
+                          className="select select-bordered w-full"
+                          {...register("case")}
+                        >
+                          {cases.map((item) => (
+                            <option value={item.value} key={item.value}>
+                              {item.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      {/* Button shape */}
+                      <div className="w-full md:w-1/2">
+                        <label className="label">
+                          <span className="label-text font-bold md:text-lg">
+                            Button shape
+                          </span>
+                        </label>
+                        <select
+                          disabled={formStatus !== "unsubmitted"}
+                          className="select select-bordered w-full"
+                          {...register("buttonShape")}
+                        >
+                          {buttonShapes.map((shape) => (
+                            <option value={shape.value} key={shape.value}>
+                              {shape.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    {/* Button colors */}
+                    <div>
+                      <label className="label">
+                        <span className="label-text font-bold md:text-lg">
+                          Buttons color(s)
+                          {errors.buttonColors && (
+                            <span className="ml-2 rounded bg-error p-1 text-sm text-error-content">
+                              Choose at least 1
+                            </span>
+                          )}
+                        </span>
+                      </label>
+                      <div className="flex flex-wrap">
+                        {buttonColors.map((color) => (
+                          <div className="w-1/2 sm:w-1/3" key={color.value}>
+                            <label className="flex cursor-pointer select-none items-center gap-x-3 rounded-lg py-2 px-2 hover:bg-accent/10">
+                              <input
+                                type="checkbox"
+                                value={color.value}
+                                disabled={formStatus !== "unsubmitted"}
+                                className="checkbox checkbox-accent checkbox-sm md:checkbox-md"
+                                {...register("buttonColors", {
+                                  validate: atLeastOne,
+                                })}
+                              />
+
+                              <span className="label-text">{color.name}</span>
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-x-2 md:flex-row">
+                      {/* Image credit */}
+                      <div className="w-full md:w-1/2">
+                        <label className="label">
+                          <span className="label-text font-bold md:text-lg">
+                            Image credit{" "}
+                            {errors.credit && (
+                              <span className="ml-2 rounded bg-error p-1 text-sm text-error-content">
+                                Required
+                              </span>
+                            )}
+                          </span>
+                        </label>
+                        <input
+                          type="text"
+                          disabled={formStatus !== "unsubmitted"}
+                          placeholder="@twitterName or DiscordName#1234"
+                          className="input input-bordered w-full placeholder:text-slate-400/50"
+                          {...register("credit", {
+                            required: true,
+                          })}
+                        />
+                      </div>
+                      {/* Image credit url */}
+                      <div className="w-full md:w-1/2">
+                        <label className="label">
+                          <span className="label-text font-bold md:text-lg">
+                            Image credit URL
+                          </span>
+                        </label>
+                        <input
+                          type="text"
+                          disabled={formStatus !== "unsubmitted"}
+                          placeholder="twitter.com/junkfoodarcades"
+                          className="input input-bordered w-full placeholder:text-slate-400/50"
+                          {...register("creditUrl")}
+                        />
+                      </div>
+                    </div>
+
+                    {formStatus === "unsubmitted" && (
+                      <input
+                        type="submit"
+                        value="Submit your Micro"
+                        className="btn btn-primary mt-4 w-full font-bold normal-case md:h-14 md:text-lg"
+                      />
+                    )}
+
+                    {formStatus === "pending" && <PendingButton />}
+                  </div>
+                </div>
+              </form>
+            )}
+
+            {formStatus === "complete" && (
+              <div className="flex flex-col gap-8 md:my-3 md:flex-row md:gap-1">
+                <div className="flex flex-col items-center justify-center gap-3 md:items-start">
+                  <p className="text-2xl font-bold text-accent md:text-3xl">
+                    Woah, nice micro
+                  </p>
+                  <p className="text-center md:text-start">
+                    Check back in a few days to see it in the gallery.
+                  </p>
+                </div>
+                <div className="mx-auto md:mx-0 md:ml-auto">
+                  <div
+                    className={`relative aspect-square h-full overflow-hidden rounded-lg  ${
+                      isUploadedImageLoading ? "bg-base-300" : ""
+                    }`}
+                  >
+                    <Image
+                      alt="Your uploaded photo"
+                      src={uploadedImageUrl}
+                      objectFit="cover"
+                      height="320px"
+                      width="320px"
+                      className={`transform duration-700 ease-in-out will-change-auto ${
+                        isUploadedImageLoading
+                          ? "scale-110 blur-xl grayscale"
+                          : "scale-100 blur-0 grayscale-0"
+                      }`}
+                      onLoadingComplete={() => setUploadedImageLoading(false)}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </Transition.Child>
       </Dialog>
     </Transition.Root>
+  );
+};
+
+const PendingButton = () => {
+  return (
+    <button
+      disabled
+      className="btn btn-primary mt-4 inline-flex w-full normal-case md:text-lg"
+    >
+      <svg
+        aria-hidden="true"
+        role="status"
+        className="mr-3 inline h-6 w-6 animate-spin text-primary"
+        viewBox="0 0 100 101"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+          fill="#E5E7EB"
+        />
+        <path
+          d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+          fill="currentColor"
+        />
+      </svg>
+      Please wait
+    </button>
   );
 };
 
