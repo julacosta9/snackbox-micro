@@ -373,7 +373,7 @@ const Gallery = ({ images }: { images: Image[] }) => {
         <title>Snackbox Micro Image Gallery</title>
         <meta
           name="description"
-          content="View and filter images of Snackbox Micros to get ideas for your own build."
+          content="View images of custom Snackbox Micros to get ideas for your own build and submit your own to the gallery."
         />
         <link rel="icon" href="/favicon.ico" />
         {/* twitter */}
@@ -382,7 +382,7 @@ const Gallery = ({ images }: { images: Image[] }) => {
         <meta name="twitter:title" content="Snackbox Micro Image Gallery" />
         <meta
           name="twitter:description"
-          content="View and filter images of Snackbox Micros to get ideas for your own build."
+          content="View images of custom Snackbox Micros to get ideas for your own build and submit your own to the gallery."
         />
         <meta
           name="twitter:image"
@@ -394,7 +394,7 @@ const Gallery = ({ images }: { images: Image[] }) => {
         <meta property="og:title" content="Snackbox Micro Image Gallery" />
         <meta
           property="og:description"
-          content="View and filter images of Snackbox Micros to get ideas for your own build"
+          content="View images of custom Snackbox Micros to get ideas for your own build and submit your own to the gallery."
         />
         <meta property="og:url" content="https://sbmicrohub.com/" />
         <meta
@@ -402,7 +402,7 @@ const Gallery = ({ images }: { images: Image[] }) => {
           content="https://vjdhwnhtmmpuhqgpozhy.supabase.co/storage/v1/object/public/misc/opengraph.png?t=2023-01-16T09%3A53%3A24.523Z"
         />
       </Head>
-      <div className="drawer-mobile drawer">
+      <div className="drawer drawer-mobile">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* <CommandPalette
