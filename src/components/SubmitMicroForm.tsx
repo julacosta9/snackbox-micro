@@ -55,32 +55,33 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    setFormStatus("pending");
-    setShowFormErrorMessage(false);
+    console.log(data)
+    // setFormStatus("pending");
+    // setShowFormErrorMessage(false);
 
-    const formData = new FormData();
-    formData.append("buttonShape", data.buttonShape);
-    formData.append("case", data.case);
-    formData.append("buttonColors", JSON.stringify(data.buttonColors));
-    formData.append("credit", data.credit as string);
-    formData.append("creditUrl", data.creditUrl);
-    formData.append("image", data.image[0]);
+    // const formData = new FormData();
+    // formData.append("buttonShape", data.buttonShape);
+    // formData.append("case", data.case);
+    // formData.append("buttonColors", JSON.stringify(data.buttonColors));
+    // formData.append("credit", data.credit as string);
+    // formData.append("creditUrl", data.creditUrl);
+    // formData.append("image", data.image[0]);
 
-    const response = await fetch("/api/submit", {
-      method: "POST",
-      body: formData,
-    });
+    // const response = await fetch("/api/submit", {
+    //   method: "POST",
+    //   body: formData,
+    // });
 
-    if (response.status === 500) {
-      setShowFormErrorMessage(true);
-      setFormStatus("unsubmitted");
-      return;
-    }
+    // if (response.status === 500) {
+    //   setShowFormErrorMessage(true);
+    //   setFormStatus("unsubmitted");
+    //   return;
+    // }
 
-    const parsedRes = await response.json();
-    console.log(parsedRes);
-    setUploadedImageUrl(parsedRes?.rowData[0]?.src);
-    setFormStatus("complete");
+    // const parsedRes = await response.json();
+    // console.log(parsedRes);
+    // setUploadedImageUrl(parsedRes?.rowData[0]?.src);
+    // setFormStatus("complete");
   };
 
   const handleClose = () => {
@@ -107,7 +108,7 @@ const SubmitMircoForm = ({ isOpen, setIsOpen }: Props) => {
         onClose={handleClose}
         className="fixed inset-0 z-10 overflow-y-auto p-4 md:pt-[25vh]"
       >
-        <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm" />
+        {/* <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm" /> */}
         <Transition.Child
           enter="duration-100 ease-out"
           enterFrom="opacity-0 scale-95"
