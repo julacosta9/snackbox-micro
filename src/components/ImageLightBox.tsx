@@ -84,7 +84,7 @@ const ImageLightBox = ({
               <div className="absolute top-5 right-5 flex gap-2">
                 <div
                   className="tooltip tooltip-left tooltip-accent"
-                  data-tip="copy link"
+                  data-tip="Copy link"
                 >
                   <button
                     onClick={() => navigator.clipboard.writeText(document.URL)}
