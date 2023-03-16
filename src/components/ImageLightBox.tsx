@@ -27,6 +27,8 @@ const ImageLightBox = ({
   const [isLoading, setLoading] = useState(true);
 
   const handleKeyDown = (e: any) => {
+    if (!isOpen) return;
+
     if (e.keyCode === 37) handlePrevImg();
     if (e.keyCode === 39) handleNextImg();
   };
