@@ -23,6 +23,7 @@ export async function getStaticProps() {
   const { data } = await supabase
     .from("image-gallery")
     .select("*")
+    .eq("isActive", true)
     .order("created_at", { ascending: false });
 
   return {
@@ -401,7 +402,7 @@ const Gallery = ({ images }: { images: Image[] }) => {
           content="https://vjdhwnhtmmpuhqgpozhy.supabase.co/storage/v1/object/public/misc/opengraph.png?t=2023-01-16T09%3A53%3A24.523Z"
         />
       </Head>
-      <div className="drawer drawer-mobile">
+      <div className="drawer-mobile drawer">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* <CommandPalette
